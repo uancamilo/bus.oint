@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Arquitectura · Sistema de Compra de Tiquetes de Cine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1419;
+    --bg-2:#161b22;
+    --ink:#e8e3d8;
+    --ink-dim:#a8a294;
+    --accent:#ff6b35;
+    --accent-2:#f7c948;
+    --green:#7dd3a8;
+    --blue:#6bb6ff;
+    --purple:#c896ff;
+    --red:#ff7a8a;
+    --line:rgba(232,227,216,.12);
+    --line-strong:rgba(232,227,216,.25);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Fraunces',serif;
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(255,107,53,.08), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(107,182,255,.06), transparent 40%);
+    padding:48px 24px;
+  }
+  .wrap{max-width:1280px;margin:0 auto}
+
+  header{margin-bottom:56px;border-bottom:1px solid var(--line);padding-bottom:32px}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:16px;
+  }
+  h1{
+    font-size:clamp(36px,5vw,68px);
+    font-weight:800;
+    line-height:1.02;
+    letter-spacing:-.02em;
+    margin-bottom:16px;
+  }
+  h1 em{font-style:italic;color:var(--accent-2)}
+  .lead{
+    font-size:18px;
+    color:var(--ink-dim);
+    max-width:720px;
+    line-height:1.5;
+  }
+
+  .problem{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    margin:48px 0 64px;
+  }
+  .problem div{
+    background:var(--bg);
+    padding:20px 24px;
+  }
+  .problem strong{
+    display:block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:8px;
+  }
+  .problem p{font-size:14px;color:var(--ink-dim);line-height:1.5}
+
+  h2{
+    font-size:32px;
+    font-weight:600;
+    letter-spacing:-.01em;
+    margin:64px 0 8px;
+  }
+  h2 span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--accent);
+    margin-right:16px;
+    vertical-align:middle;
+    letter-spacing:.1em;
+  }
+  .section-sub{color:var(--ink-dim);font-size:15px;margin-bottom:32px;max-width:700px}
+
+  /* Diagrama de flujo */
+  .flow{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    margin:32px 0;
+    border:1px solid var(--line);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .layer{
+    display:grid;
+    grid-template-columns:200px 1fr;
+    border-bottom:1px solid var(--line);
+    transition:background .2s;
+  }
+  .layer:last-child{border-bottom:none}
+  .layer:hover{background:rgba(255,107,53,.02)}
+  .layer-label{
+    padding:24px;
+    background:var(--bg-2);
+    border-right:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .layer-label .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--accent);
+    letter-spacing:.15em;
+    margin-bottom:4px;
+  }
+  .layer-label .name{
+    font-size:18px;
+    font-weight:600;
+    line-height:1.2;
+  }
+  .layer-content{
+    padding:24px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:24px;
+  }
+
+  .component{
+    border:1px solid var(--line);
+    padding:18px;
+    background:var(--bg);
+    position:relative;
+    transition:border-color .2s, transform .2s;
+  }
+  .component:hover{border-color:var(--line-strong);transform:translateY(-2px)}
+  .component .tag{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    letter-spacing:.1em;
+    padding:3px 8px;
+    border:1px solid;
+    margin-bottom:10px;
+  }
+  .tag.client{color:var(--blue);border-color:rgba(107,182,255,.4)}
+  .tag.edge{color:var(--accent-2);border-color:rgba(247,201,72,.4)}
+  .tag.gateway{color:var(--accent);border-color:rgba(255,107,53,.5)}
+  .tag.compute{color:var(--green);border-color:rgba(125,211,168,.4)}
+  .tag.data{color:var(--purple);border-color:rgba(200,150,255,.4)}
+  .tag.async{color:var(--red);border-color:rgba(255,122,138,.4)}
+  .component h3{
+    font-size:17px;
+    font-weight:600;
+    margin-bottom:6px;
+    letter-spacing:-.01em;
+  }
+  .component .role{
+    font-size:13px;
+    color:var(--ink-dim);
+    margin-bottom:12px;
+    line-height:1.4;
+    font-style:italic;
+  }
+  .component ul{list-style:none;padding:0}
+  .component li{
+    font-size:13px;
+    line-height:1.5;
+    padding:4px 0 4px 16px;
+    position:relative;
+    color:var(--ink);
+  }
+  .component li::before{
+    content:'→';
+    position:absolute;
+    left:0;
+    color:var(--accent);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .component li.bad::before{content:'✕';color:var(--red)}
+  .component li.good::before{content:'✓';color:var(--green)}
+  .component .stack{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px dashed var(--line);
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--ink-dim);
+    letter-spacing:.05em;
+  }
+  .component .stack b{color:var(--accent-2);font-weight:500}
+
+  .arrow-down{
+    text-align:center;
+    color:var(--line-strong);
+    font-size:14px;
+    padding:8px 0;
+    font-family:'JetBrains Mono',monospace;
+    background:var(--bg-2);
+    border-bottom:1px solid var(--line);
+  }
+
+  /* Flujo paso a paso */
+  .steps{
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    padding:32px;
+    margin:32px 0;
+  }
+  .steps ol{list-style:none;counter-reset:step;padding:0}
+  .steps li{
+    counter-increment:step;
+    padding:12px 0 12px 56px;
+    position:relative;
+    border-bottom:1px dashed var(--line);
+    font-size:15px;
+    line-height:1.5;
+  }
+  .steps li:last-child{border-bottom:none}
+  .steps li::before{
+    content:counter(step,decimal-leading-zero);
+    position:absolute;
+    left:0;
+    top:12px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .steps li code{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    background:var(--bg);
+    padding:2px 6px;
+    color:var(--accent-2);
+    border:1px solid var(--line);
+  }
+
+  footer{
+    margin-top:80px;
+    padding-top:32px;
+    border-top:1px solid var(--line);
+    color:var(--ink-dim);
+    font-size:13px;
+    font-family:'JetBrains Mono',monospace;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+
+  @media (max-width:720px){
+    .layer{grid-template-columns:1fr}
+    .layer-label{border-right:none;border-bottom:1px solid var(--line)}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Ejercicio · Arquitectura en la nube</div>
+  <h1>Compra de tiquetes<br>de <em>cine</em> · 10K usuarios concurrentes</h1>
+  <p class="lead">Diseño de un sistema que vende tiquetes con reserva de silla, sin permitir doble venta sobre la misma silla, con TTL de 10 minutos para completar el pago.</p>
+</header>
+
+<div class="problem">
+  <div><strong>Usuarios</strong><p>10.000 concurrentes (estreno tipo Marvel)</p></div>
+  <div><strong>Acciones</strong><p>Ver catálogo · Reservar · Pagar · Registrar</p></div>
+  <div><strong>Restricción dura</strong><p>Nunca doble reserva sobre la misma silla</p></div>
+  <div><strong>TTL de reserva</strong><p>10 minutos para pagar, si no se libera</p></div>
+</div>
+
+<h2><span>01</span>Diagrama por capas</h2>
+<p class="section-sub">Cada capa resuelve un problema concreto. Las peticiones bajan de arriba hacia abajo; cuanto más arriba se resuelve algo, menos carga llega al backend.</p>
+
+<div class="flow">
+
+  <!-- CAPA 1: CLIENTE -->
+  <div class="layer">
+    <div class="layer-label">
+      <div class="num">CAPA 01</div>
+      <div class="name">Cliente</div>
+    </div>
+    <div class="layer-content">
+      <div class="component">
+        <span class="tag client">BROWSER / MOBILE</span>
+        <h3>App Angular (SPA)</h3>
+        <div class="role">Lo que el usuario ve y toca.</div>
+        <ul>
+          <li>Muestra catálogo, mapa de sillas, formulario de pago</li>
+          <li>Se conecta por WebSocket para ver sillas ocupadas en vivo</li>
+          <li>No habla directo con la pasarela ni la DB</li>
+        </ul>
+        <div class="stack"><b>Stack:</b> Angular + TypeScript</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓ HTTPS</div>
+
+  <!-- CAPA 2: EDGE -->
+  <div class="layer">
+    <div class="layer-label">
+      <div class="num">CAPA 02</div>
+      <div class="name">Edge / CDN</div>
+    </div>
+    <div class="layer-content">
+      <div class="component">
+        <span class="tag edge">CDN</span>
+        <h3>CDN (CloudFront / Cloud CDN)</h3>
+        <div class="role">Red global de servidores cache.</div>
+        <ul>
+          <li>Conecta al usuario con el servidor más cercano (menor latencia)</li>
+          <li>Sirve el catálogo cacheado: cartelera, películas, horarios</li>
+          <li class="good">Evita 90% de peticiones al backend</li>
+          <li class="good">Absorbe picos de tráfico (10K usuarios mirando cartelera)</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> CloudFront · <b>GCP:</b> Cloud CDN</div>
+      </div>
+
+      <div class="component">
+        <span class="tag edge">STORAGE</span>
+        <h3>Bucket de estáticos</h3>
+        <div class="role">Donde viven los archivos que no cambian.</div>
+        <ul>
+          <li>HTML, CSS, JS de Angular compilado</li>
+          <li>Imágenes de películas, posters, logos</li>
+          <li>PDFs/QR de tiquetes ya emitidos</li>
+          <li class="good">Barato, escalable, sin servidor</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> S3 · <b>GCP:</b> Cloud Storage (Blob)</div>
+      </div>
+
+      <div class="component">
+        <span class="tag edge">WAITING ROOM</span>
+        <h3>Sala de espera virtual</h3>
+        <div class="role">Filtro antes del backend.</div>
+        <ul>
+          <li>Si llegan 10K, deja pasar 500 por minuto al sistema real</li>
+          <li>Los demás ven "Estás en posición 3.247..."</li>
+          <li class="good">Protege al backend de un colapso</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> Waiting Room · <b>GCP:</b> Cloud Armor + contador</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- CAPA 3: GATEWAY -->
+  <div class="layer">
+    <div class="layer-label">
+      <div class="num">CAPA 03</div>
+      <div class="name">Puerta de entrada</div>
+    </div>
+    <div class="layer-content">
+      <div class="component">
+        <span class="tag gateway">API GATEWAY</span>
+        <h3>API Gateway</h3>
+        <div class="role">La única puerta al backend. Todo pasa por aquí.</div>
+        <ul>
+          <li>Valida el token del usuario (autenticación)</li>
+          <li>Rate limiting: máx 5 requests/seg por usuario</li>
+          <li>Enruta cada llamada al microservicio correcto</li>
+          <li class="bad">Evita: ataques DDoS, bots, abuso de la API</li>
+          <li class="bad">Evita: que el cliente hable directo con la DB</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> API Gateway · <b>GCP:</b> API Gateway / Apigee</div>
+      </div>
+
+      <div class="component">
+        <span class="tag gateway">WAF</span>
+        <h3>Firewall de aplicación</h3>
+        <div class="role">Filtra peticiones maliciosas antes de que entren.</div>
+        <ul>
+          <li>Bloquea SQL injection, XSS, bots conocidos</li>
+          <li>Reglas anti-revendedor (bloqueo por país/IP/patrón)</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> WAF · <b>GCP:</b> Cloud Armor</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- CAPA 4: COMPUTE -->
+  <div class="layer">
+    <div class="layer-label">
+      <div class="num">CAPA 04</div>
+      <div class="name">Lógica de negocio<br>(APIs)</div>
+    </div>
+    <div class="layer-content">
+      <div class="component">
+        <span class="tag compute">SERVICIO</span>
+        <h3>API de Catálogo</h3>
+        <div class="role">Películas, funciones, salas, sillas disponibles.</div>
+        <ul>
+          <li>Lectura intensiva, casi nunca escribe</li>
+          <li>Sus respuestas se cachean en CDN</li>
+        </ul>
+        <div class="stack"><b>Stack:</b> Node.js + TypeScript</div>
+      </div>
+
+      <div class="component">
+        <span class="tag compute">SERVICIO</span>
+        <h3>API de Reservas ⚡</h3>
+        <div class="role">El servicio crítico: bloquea sillas con TTL.</div>
+        <ul>
+          <li>Recibe "quiero la silla A5 de la función 123"</li>
+          <li>Pregunta a Redis con operación atómica</li>
+          <li>Si nadie la tiene → la marca con TTL 10 min</li>
+          <li>Si ya está tomada → rechaza, sin esperar</li>
+        </ul>
+        <div class="stack"><b>Stack:</b> Node.js + TypeScript</div>
+      </div>
+
+      <div class="component">
+        <span class="tag compute">SERVICIO</span>
+        <h3>API de Pagos</h3>
+        <div class="role">Conversa con la pasarela (Wompi, PayU).</div>
+        <ul>
+          <li>Encola intentos de pago para no saturar la pasarela</li>
+          <li>Recibe webhook de confirmación</li>
+          <li>Confirma la reserva → genera tiquete</li>
+        </ul>
+        <div class="stack"><b>Stack:</b> Node.js + TypeScript</div>
+      </div>
+
+      <div class="component">
+        <span class="tag compute">DÓNDE CORRE</span>
+        <h3>Cómputo (donde se aloja)</h3>
+        <div class="role">Las APIs anteriores corren aquí.</div>
+        <ul>
+          <li><b>Opción serverless:</b> Lambda / Cloud Functions</li>
+          <li><b>Opción contenedores:</b> ECS Fargate / Cloud Run</li>
+          <li class="good">Escala automático: de 1 a miles de instancias</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> Lambda / Fargate · <b>GCP:</b> Cloud Run</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- CAPA 5: DATOS -->
+  <div class="layer">
+    <div class="layer-label">
+      <div class="num">CAPA 05</div>
+      <div class="name">Datos</div>
+    </div>
+    <div class="layer-content">
+      <div class="component">
+        <span class="tag data">CACHE EN MEMORIA</span>
+        <h3>Redis ⚡ (el corazón)</h3>
+        <div class="role">Base de datos en memoria RAM, ultra rápida.</div>
+        <ul>
+          <li><b>Estado en vivo de sillas:</b> qué silla está libre/reservada/vendida</li>
+          <li><b>Lock atómico:</b> dos usuarios piden A5 → solo uno gana, el otro recibe "ocupada" en menos de 1ms</li>
+          <li><b>TTL nativo:</b> la silla se libera sola a los 10 min si no pagó</li>
+          <li><b>Sesiones:</b> tokens, contador de sala de espera</li>
+          <li class="good">100.000+ operaciones por segundo en un solo nodo</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> ElastiCache · <b>GCP:</b> Memorystore</div>
+      </div>
+
+      <div class="component">
+        <span class="tag data">BASE PRINCIPAL</span>
+        <h3>Base de datos</h3>
+        <div class="role">Verdad histórica del negocio.</div>
+        <ul>
+          <li>Películas, funciones, salas, usuarios</li>
+          <li>Tiquetes vendidos confirmados</li>
+          <li>Historial de transacciones</li>
+          <li>Solo escribe cuando el pago se confirma (no en cada intento)</li>
+        </ul>
+        <div class="stack"><b>SQL:</b> PostgreSQL (RDS / Cloud SQL)<br><b>NoSQL:</b> DynamoDB / Firestore</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓ eventos asincrónicos</div>
+
+  <!-- CAPA 6: ASYNC -->
+  <div class="layer">
+    <div class="layer-label">
+      <div class="num">CAPA 06</div>
+      <div class="name">Asíncrono<br>(colas y eventos)</div>
+    </div>
+    <div class="layer-content">
+      <div class="component">
+        <span class="tag async">COLA</span>
+        <h3>Sistema de colas</h3>
+        <div class="role">Buffer entre productores rápidos y consumidores lentos.</div>
+        <ul>
+          <li>Recibe "intento de pago" y lo procesa cuando la pasarela pueda</li>
+          <li>La pasarela aguanta 100/seg, pero pueden llegar 5.000/seg</li>
+          <li class="good">Evita perder peticiones si un servicio se cae</li>
+          <li class="good">Desacopla servicios: la API de reservas no espera a la de pagos</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> SQS · <b>GCP:</b> Pub/Sub</div>
+      </div>
+
+      <div class="component">
+        <span class="tag async">ORQUESTADOR</span>
+        <h3>Orquestador de flujos</h3>
+        <div class="role">Coordina pasos largos (la reserva dura hasta 10 min).</div>
+        <ul>
+          <li>Paso 1: reservar silla en Redis</li>
+          <li>Paso 2: esperar pago hasta 10 min</li>
+          <li>Paso 3a: si pagó → confirmar, generar tiquete</li>
+          <li>Paso 3b: si no pagó → liberar silla, avisar usuario</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> Step Functions · <b>GCP:</b> Cloud Workflows</div>
+      </div>
+
+      <div class="component">
+        <span class="tag async">WEBSOCKET</span>
+        <h3>Notificaciones en tiempo real</h3>
+        <div class="role">Empuja cambios al cliente sin que tenga que preguntar.</div>
+        <ul>
+          <li>Cuando alguien reserva la A5, todos los demás la ven roja al instante</li>
+          <li>Evita 10.000 clientes preguntando "¿está libre?" cada segundo</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> API Gateway WebSocket · <b>GCP:</b> Cloud Run WS</div>
+      </div>
+
+      <div class="component">
+        <span class="tag async">NOTIFICACIONES</span>
+        <h3>Email / Push</h3>
+        <div class="role">Envío del tiquete y avisos.</div>
+        <ul>
+          <li>Manda el tiquete con QR al correo</li>
+          <li>Push si el pago falló o la reserva expiró</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> SES + SNS · <b>GCP:</b> SendGrid + FCM</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- CAPA 7: EXTERNO -->
+  <div class="layer">
+    <div class="layer-label">
+      <div class="num">CAPA 07</div>
+      <div class="name">Servicios externos</div>
+    </div>
+    <div class="layer-content">
+      <div class="component">
+        <span class="tag async">3RD PARTY</span>
+        <h3>Pasarela de pagos</h3>
+        <div class="role">Procesa el dinero. No es parte de nuestro sistema.</div>
+        <ul>
+          <li>Wompi, PayU, Mercado Pago, ePayco (en Colombia)</li>
+          <li>Devuelve webhook con resultado (aprobado / rechazado)</li>
+        </ul>
+      </div>
+
+      <div class="component">
+        <span class="tag async">OBSERVABILIDAD</span>
+        <h3>Logs y métricas</h3>
+        <div class="role">Para saber qué está pasando dentro del sistema.</div>
+        <ul>
+          <li>¿Cuántas reservas por minuto?</li>
+          <li>¿La pasarela está lenta?</li>
+          <li>¿Cuántas sillas se liberaron por timeout?</li>
+        </ul>
+        <div class="stack"><b>AWS:</b> CloudWatch + X-Ray · <b>GCP:</b> Cloud Logging</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h2><span>02</span>Flujo completo de una reserva</h2>
+<p class="section-sub">Recorrido de Ana, que quiere ver Avengers en la silla A5.</p>
+
+<div class="steps">
+  <ol>
+    <li>Ana abre la app Angular. El <code>CDN</code> le entrega el HTML/CSS/JS desde el servidor más cercano (en milisegundos).</li>
+    <li>La app pide el catálogo. Como ya está cacheado en el <code>CDN</code>, ni siquiera llega al backend.</li>
+    <li>Ana elige la función. Se abre un <code>WebSocket</code> que muestra qué sillas están libres/ocupadas en vivo.</li>
+    <li>Ana toca la silla A5. La app llama al <code>API Gateway</code>, que valida su token y aplica rate limit.</li>
+    <li>El <code>API Gateway</code> enruta a la <code>API de Reservas</code>, que ejecuta una operación atómica en <code>Redis</code>: "marca A5 como reservada por Ana, TTL 10 min, solo si está libre".</li>
+    <li><code>Redis</code> garantiza que solo uno gana: Ana se queda con la silla. Si Carlos pidió a la misma vez, recibe "ocupada" inmediatamente.</li>
+    <li>El <code>WebSocket</code> notifica a todos los otros 9.999 usuarios que A5 ya está ocupada.</li>
+    <li>El <code>Orquestador (Step Functions)</code> arranca un flujo que esperará el pago hasta 10 minutos.</li>
+    <li>Ana ingresa su tarjeta. La <code>API de Pagos</code> mete el intento en la <code>cola SQS</code> para no saturar Wompi.</li>
+    <li>Un worker toma el mensaje, llama a <code>Wompi</code>, espera la respuesta.</li>
+    <li>Wompi confirma vía <code>webhook</code>. La <code>API de Pagos</code> marca la silla como VENDIDA en <code>Redis</code> y persiste el tiquete en <code>PostgreSQL</code>.</li>
+    <li>El <code>Orquestador</code> dispara: generar PDF/QR, guardarlo en <code>S3/Blob</code>, mandar correo vía <code>SES</code>.</li>
+    <li>Si Ana NO hubiera pagado en 10 min: el TTL de <code>Redis</code> libera la silla sola, el <code>WebSocket</code> avisa a todos, y otro usuario puede tomarla.</li>
+  </ol>
+</div>
+
+<h2><span>03</span>Reglas de oro del diseño</h2>
+<div class="problem" style="margin-top:24px">
+  <div><strong>Cachear arriba</strong><p>Cuanto más arriba (más cerca del usuario) se responde algo, menos carga llega abajo. El catálogo nunca debe pegarle a la DB en cada visita.</p></div>
+  <div><strong>Operaciones atómicas</strong><p>La regla "no doble reserva" se resuelve con UNA operación en Redis, no con "leer → pensar → escribir". Eso evita la condición de carrera.</p></div>
+  <div><strong>Asíncrono cuando se pueda</strong><p>El cliente no espera a que se mande el correo. Se encola y el servidor procesa cuando puede.</p></div>
+  <div><strong>Desacoplar servicios</strong><p>Si la pasarela se cae, las reservas siguen funcionando. Si el correo se cae, los pagos siguen. Cada servicio es independiente.</p></div>
+  <div><strong>Una sola puerta</strong><p>Todo el tráfico entra por el API Gateway. Nunca el cliente habla con la DB ni con la pasarela directamente.</p></div>
+  <div><strong>Escala horizontal</strong><p>En vez de un servidor gigante, muchos servidores pequeños que se multiplican según la demanda.</p></div>
+</div>
+
+<footer>
+  <span>Ejercicio didáctico · Arquitectura de cine</span>
+  <span>Stack ilustrativo: AWS / GCP · Node.js · Angular · Redis</span>
+</footer>
+
+</div>
+</body>
+</html>
