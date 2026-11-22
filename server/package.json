@@ -11,14 +11,16 @@
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
     "data:build": "tsx scripts/build-data.ts",
-    "test": "node --import tsx --test \"src/**/*.test.ts\"",
-    "typecheck": "tsc --noEmit"
+    "test": "node --import tsx --test --test-timeout=15000 \"src/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit",
+    "places:build": "tsx scripts/build-places.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.4.3",
     "@fastify/swagger": "^9.9.5",
     "@fastify/swagger-ui": "^6.1.5",
     "@fastify/type-provider-typebox": "^6.3.0",
+    "@fastify/websocket": "^11.3.7",
     "fastify": "^5.12.8",
     "proj4": "^2.23.0",
     "typebox": "^1.4.7"

@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>bus.point · demo</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --ink: #111827;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --accent: #2563eb;
+        --ok: #16a34a;
+        --warn: #d97706;
+        --bad: #dc2626;
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111827;
+          --ink: #f3f4f6;
+          --muted: #9ca3af;
+          --line: #374151;
+          --shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        font:
+          14px/1.4 system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+      }
+      #map {
+        position: fixed;
+        inset: 0;
+      }
+      .panel {
+        position: fixed;
+        z-index: 1000;
+        top: 12px;
+        left: 12px;
+        width: 340px;
+        max-height: calc(100% - 24px);
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .panel header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 14px 8px;
+      }
+      .panel h1 {
+        margin: 0;
+        font-size: 17px;
+        flex: 1;
+      }
+      .status {
+        font-size: 12px;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--warn);
+      }
+      .dot.ok {
+        background: var(--ok);
+      }
+      .dot.bad {
+        background: var(--bad);
+      }
+      .toggle {
+        border: 0;
+        background: none;
+        color: var(--muted);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 2px 6px;
+      }
+      .body {
+        padding: 0 14px 12px;
+        overflow: auto;
+      }
+      .panel.collapsed .body {
+        display: none;
+      }
+      input[type='search'] {
+        width: 100%;
+        padding: 9px 11px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--ink);
+        font-size: 15px;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 12px;
+        margin: 8px 0 0;
+      }
+      .list {
+        list-style: none;
+        margin: 8px 0 0;
+        padding: 0;
+      }
+      .list li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 4px;
+        border-bottom: 1px solid var(--line);
+        cursor: pointer;
+      }
+      .list li:hover {
+        background: rgba(37, 99, 235, 0.07);
+      }
+      .code {
+        font-weight: 700;
+        min-width: 54px;
+      }
+      .name {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .swatch {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        flex: none;
+      }
+      .remove {
+        color: var(--muted);
+        font-size: 16px;
+      }
+      h2 {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin: 14px 0 0;
+      }
+      .bus {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        display: grid;
+        place-items: center;
+      }
+      .bus::after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 8px solid #fff;
+        transform: translateY(-1px);
+      }
+      .popup h3 {
+        margin: 0 0 4px;
+        font-size: 14px;
+      }
+      .popup ul {
+        margin: 4px 0 0;
+        padding-left: 16px;
+      }
+      .popup .muted {
+        color: #6b7280;
+        font-size: 12px;
+      }
+      .popup a {
+        cursor: pointer;
+      }
+      @media (max-width: 640px) {
+        .panel {
+          top: auto;
+          bottom: 12px;
+          left: 12px;
+          right: 12px;
+          width: auto;
+          max-height: 55%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <section class="panel" id="panel">
+      <header>
+        <h1>bus.point · demo</h1>
+        <span class="status"
+          ><span class="dot" id="dot"></span><span id="status">conectando…</span></span
+        >
+        <button class="toggle" id="toggle" aria-label="Contraer panel">▾</button>
+      </header>
+      <div class="body">
+        <input
+          type="search"
+          id="place"
+          placeholder="¿A dónde vas? Lugar o dirección (Enter: buscar más)"
+          autocomplete="off"
+          enterkeyhint="search"
+        />
+        <ul class="list" id="places"></ul>
+        <h2>Rutas</h2>
+        <input
+          type="search"
+          id="search"
+          placeholder="Busca una ruta: 190, laureles, poblado…"
+          autocomplete="off"
+        />
+        <ul class="list" id="results"></ul>
+        <h2>En el mapa</h2>
+        <ul class="list" id="selected"></ul>
+        <p class="hint" id="hint">
+          Elige hasta 20 rutas para ver sus buses en vivo. Toca una parada para ver cuándo llega el
+          próximo bus, o toca el mapa para ver las paradas cercanas.
+        </p>
+      </div>
+    </section>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script>
+      'use strict';
+
+      const COLORS = [
+        '#2563eb',
+        '#16a34a',
+        '#d97706',
+        '#9333ea',
+        '#dc2626',
+        '#0891b2',
+        '#db2777',
+        '#65a30d',
+        '#ea580c',
+        '#4f46e5',
+      ];
+      const MAX_ROUTES = 20;
+      const STORAGE_KEY = 'buspoint-demo-routes';
+
+      const $ = (id) => document.getElementById(id);
+      const esc = (text) =>
+        String(text ?? '').replace(
+          /[&<>"']/g,
+          (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
+        );
+      const minutes = (s) => (s < 60 ? 'llegando' : `${Math.round(s / 60)} min`);
+      const api = async (path) => {
+        const res = await fetch(path);
+        if (!res.ok) throw new Error(`${res.status} ${path}`);
+        return res.json();
+      };
+
+      // --- Mapa -----------------------------------------------------------------------
+      const map = L.map('map', { zoomControl: false }).setView([6.2476, -75.5658], 13);
+      L.control.zoom({ position: 'topright' }).addTo(map);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · Rutas: Datos Abiertos Medellín',
+      }).addTo(map);
+
+      /** id de ruta → { summary, color, layer, buses: Map<busId, marker> } */
+      const shown = new Map();
+      let colorIndex = 0;
+
+      async function addRoute(id, { fit = true } = {}) {
+        if (shown.has(id)) return;
+        if (shown.size >= MAX_ROUTES) return alert(`Máximo ${MAX_ROUTES} rutas a la vez`);
+        const color = COLORS[colorIndex++ % COLORS.length];
+        const entry = { color, layer: L.layerGroup().addTo(map), buses: new Map(), summary: null };
+        shown.set(id, entry);
+        try {
+          const route = await api(`/rutas/${encodeURIComponent(id)}`);
+          entry.summary = route;
+          drawRoute(route, entry);
+          if (fit)
+            map.fitBounds(
+              [
+                [route.bounds.south, route.bounds.west],
+                [route.bounds.north, route.bounds.east],
+              ],
+              { padding: [30, 30] }
+            );
+        } catch (error) {
+          shown.delete(id);
+          entry.layer.remove();
+          console.error(error);
+        }
+        renderSelected();
+        persist();
+        subscribe();
+      }
+
+      function removeRoute(id) {
+        const entry = shown.get(id);
+        if (!entry) return;
+        entry.layer.remove();
+        shown.delete(id);
+        renderSelected();
+        persist();
+        subscribe();
+      }
+
+      function drawRoute(route, entry) {
+        // Dibuja solo los tramos con servicio; los huecos a terminal quedan punteados.
+        const cumulative = [0];
+        for (let i = 1; i < route.path.length; i++) {
+          cumulative.push(cumulative[i - 1] + map.distance(route.path[i - 1], route.path[i]));
+        }
+        const scale = route.lengthM / (cumulative.at(-1) || 1);
+        for (const segment of route.segments) {
+          const points = route.path.filter((_, i) => {
+            const at = cumulative[i] * scale;
+            return at >= segment.startM - 1 && at <= segment.endM + 1;
+          });
+          if (points.length < 2) continue;
+          L.polyline(points, {
+            color: entry.color,
+            weight: segment.kind === 'service' ? 5 : 3,
+            opacity: segment.kind === 'service' ? 0.75 : 0.45,
+            dashArray: segment.kind === 'deadhead' ? '6 8' : null,
+          }).addTo(entry.layer);
+        }
+        for (const stop of route.stops) {
+          L.circleMarker([stop.lat, stop.lng], {
+            radius: 4,
+            color: entry.color,
+            weight: 2,
+            fillColor: '#fff',
+            fillOpacity: 1,
+          })
+            .bindPopup(() => stopPopup(stop.id, stop.address), { className: 'popup' })
+            .on('popupopen', (e) => loadArrivals(stop.id, e.popup))
+            .addTo(entry.layer);
+        }
+      }
+
+      // --- Paradas y llegadas ---------------------------------------------------------
+      function stopPopup(id, address) {
+        return `<div class="popup"><h3>${esc(address || `Parada ${id}`)}</h3><span class="muted">Cargando llegadas…</span></div>`;
+      }
+
+      async function loadArrivals(stopId, popup) {
+        try {
+          const data = await api(`/paradas/${encodeURIComponent(stopId)}/llegadas?proximos=2`);
+          const stop = await api(`/paradas/${encodeURIComponent(stopId)}`);
+          const rows = data.routes
+            .map(
+              (r) =>
+                `<li><a data-route="${esc(r.route.id)}"><b>${esc(r.route.code)}</b></a> ${esc(r.direction)}: ` +
+                `${r.arrivals.map((a) => minutes(a.etaS)).join(', ')}</li>`
+            )
+            .join('');
+          popup.setContent(
+            `<div class="popup"><h3>${esc(stop.address || `Parada ${stopId}`)}</h3>` +
+              `<span class="muted">Próximos buses (toca una ruta para verla)</span><ul>${rows}</ul></div>`
+          );
+        } catch (error) {
+          popup.setContent(`<div class="popup">No se pudieron cargar las llegadas</div>`);
+        }
+      }
+
+      // Tocar el mapa (o elegir un destino) muestra las paradas cercanas.
+      map.on('click', (e) => showNearby(e.latlng));
+
+      async function showNearby(latlng, title = 'Paradas cercanas') {
+        const { lat, lng } = latlng;
+        const popup = L.popup({ className: 'popup' })
+          .setLatLng(latlng)
+          .setContent('<span class="muted">Buscando paradas…</span>')
+          .openOn(map);
+        try {
+          const stops = await api(
+            `/paradas/cercanas?lat=${lat.toFixed(6)}&lng=${lng.toFixed(6)}&radio=400&limite=5`
+          );
+          popup.setContent(
+            stops.length === 0
+              ? '<div class="popup">No hay paradas a menos de 400 m</div>'
+              : `<div class="popup"><h3>${esc(title)}</h3><span class="muted">Paradas a menos de 400 m</span><ul>${stops
+                  .map(
+                    (s) =>
+                      `<li>${esc(s.address || `Parada ${s.id}`)} <span class="muted">(${s.distanceM} m)</span><br>` +
+                      s.routes
+                        .slice(0, 8)
+                        .map((r) => `<a data-route="${esc(r.id)}">${esc(r.code)}</a>`)
+                        .join(' · ') +
+                      '</li>'
+                  )
+                  .join('')}</ul></div>`
+          );
+        } catch {
+          popup.setContent('<div class="popup">Toca dentro del Valle de Aburrá</div>');
+        }
+      }
+
+      // --- Destinos ("¿a dónde vas?") ---------------------------------------------------
+      let placeTimer;
+      let placeMarker;
+      const SOURCE_LABEL = { lugar: 'Lugar', parada: 'Dirección', osm: 'OpenStreetMap' };
+
+      async function searchPlaces(q, external) {
+        if (q.length < 2) return ($('places').innerHTML = '');
+        if (external)
+          $('places').innerHTML = '<li class="hint">Buscando también en OpenStreetMap…</li>';
+        try {
+          const data = await api(
+            `/lugares?q=${encodeURIComponent(q)}&limite=8&externo=${external ? 'true' : 'false'}`
+          );
+          const items = data.results.map(
+            (r, i) =>
+              `<li data-place="${i}"><span class="code">${esc(SOURCE_LABEL[r.source])}</span>` +
+              `<span class="name">${esc(r.name)}<br><span class="hint">${esc(r.detail)}</span></span></li>`
+          );
+          if (data.external.error) items.push(`<li class="hint">${esc(data.external.error)}</li>`);
+          if (items.length === 0) {
+            items.push(
+              external
+                ? '<li class="hint">Sin resultados</li>'
+                : '<li class="hint">Sin resultados locales: pulsa Enter para buscar en OpenStreetMap</li>'
+            );
+          }
+          if (data.attribution) items.push(`<li class="hint">${esc(data.attribution)}</li>`);
+          $('places').innerHTML = items.join('');
+          $('places').results = data.results;
+        } catch (error) {
+          $('places').innerHTML = '<li class="hint">No se pudo buscar</li>';
+        }
+      }
+
+      $('place').addEventListener('input', (e) => {
+        clearTimeout(placeTimer);
+        placeTimer = setTimeout(() => searchPlaces(e.target.value.trim(), false), 200);
+      });
+      $('place').addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter') return;
+        clearTimeout(placeTimer);
+        searchPlaces(e.target.value.trim(), true);
+      });
+      $('places').addEventListener('click', (e) => {
+        const item = e.target.closest('[data-place]');
+        const place = item && $('places').results?.[Number(item.dataset.place)];
+        if (!place) return;
+        placeMarker?.remove();
+        placeMarker = L.marker([place.lat, place.lng]).addTo(map);
+        map.setView([place.lat, place.lng], 16);
+        showNearby(L.latLng(place.lat, place.lng), place.name);
+        $('places').innerHTML = '';
+        $('place').value = place.name;
+      });
+
+      // Enlaces de ruta dentro de los popups.
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('[data-route]');
+        if (link) addRoute(link.dataset.route);
+      });
+
+      // --- Tiempo real ----------------------------------------------------------------
+      let socket;
+      let tickMs = 1000;
+
+      function connect() {
+        // Abierta como archivo no hay servidor al cual conectarse.
+        if (location.protocol === 'file:') {
+          setStatus('abre la página desde el servidor', 'bad');
+          $('hint').hidden = false;
+          $('hint').textContent =
+            'Esta página debe abrirse desde el backend: ejecuta "cd server && npm run dev" ' +
+            'y entra a http://localhost:3000/demo';
+          return;
+        }
+        setStatus('conectando…', '');
+        socket = new WebSocket(
+          `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/tiempo-real`
+        );
+        socket.onopen = () => {
+          setStatus('en vivo', 'ok');
+          subscribe();
+        };
+        socket.onmessage = (event) => {
+          const message = JSON.parse(event.data);
+          if (message.type === 'welcome') tickMs = message.tickMs;
+          if (message.type === 'buses') updateBuses(message.routes);
+          if (message.type === 'error') console.warn(message.message);
+        };
+        socket.onclose = () => {
+          // Suele significar que el servidor está apagado o que cambió de red.
+          setStatus('sin conexión al servidor · reintentando…', 'bad');
+          setTimeout(connect, 2000);
+        };
+      }
+
+      function subscribe() {
+        if (socket?.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({ type: 'subscribe', routeIds: [...shown.keys()] }));
+        }
+      }
+
+      function busIcon(color, heading) {
+        return L.divIcon({
+          className: '',
+          iconSize: [22, 22],
+          html: `<div class="bus" style="background:${color};transform:rotate(${heading}deg)"></div>`,
+        });
+      }
+
+      function updateBuses(routes) {
+        for (const [routeId, buses] of Object.entries(routes)) {
+          const entry = shown.get(routeId);
+          if (!entry) continue;
+          const seen = new Set();
+          for (const bus of buses) {
+            if (!bus.visible) continue;
+            seen.add(bus.id);
+            let marker = entry.buses.get(bus.id);
+            const target = L.latLng(bus.lat, bus.lng);
+            if (!marker) {
+              marker = L.marker(target, {
+                icon: busIcon(entry.color, bus.heading),
+                zIndexOffset: 1000,
+              })
+                .bindPopup('', { className: 'popup' })
+                .addTo(entry.layer);
+              entry.buses.set(bus.id, marker);
+            } else {
+              animate(marker, target);
+              marker.setIcon(busIcon(entry.color, bus.heading));
+            }
+            const code = entry.summary?.code ?? routeId;
+            marker.setPopupContent(
+              `<div class="popup"><h3>Bus ${esc(code)} · ${esc(bus.direction ?? 'en terminal')}</h3>` +
+                (bus.nextStop
+                  ? `Próxima parada en ${minutes(bus.nextStop.etaS)} (${bus.nextStop.distanceM} m)`
+                  : '') +
+                '</div>'
+            );
+          }
+          for (const [busId, marker] of entry.buses) {
+            if (!seen.has(busId)) {
+              marker.remove();
+              entry.buses.delete(busId);
+            }
+          }
+        }
+      }
+
+      /** Desliza el marcador hasta su nueva posición durante un ciclo. */
+      function animate(marker, target) {
+        const from = marker.getLatLng();
+        if (from.distanceTo(target) > 300) return marker.setLatLng(target); // salto (cambio de vuelta)
+        const start = performance.now();
+        const step = (now) => {
+          const t = Math.min(1, (now - start) / tickMs);
+          marker.setLatLng([
+            from.lat + (target.lat - from.lat) * t,
+            from.lng + (target.lng - from.lng) * t,
+          ]);
+          if (t < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+
+      function setStatus(text, kind) {
+        $('status').textContent = text;
+        $('dot').className = `dot ${kind}`;
+      }
+
+      // --- Panel ------------------------------------------------------------------------
+      let searchTimer;
+      $('search').addEventListener('input', (e) => {
+        clearTimeout(searchTimer);
+        const q = e.target.value.trim();
+        searchTimer = setTimeout(async () => {
+          if (!q) return ($('results').innerHTML = '');
+          const routes = await api(`/rutas?q=${encodeURIComponent(q)}&limite=8`);
+          $('results').innerHTML = routes.length
+            ? routes
+                .map(
+                  (r) =>
+                    `<li data-add="${esc(r.id)}"><span class="code">${esc(r.code)}</span>` +
+                    `<span class="name">${esc(r.name)}</span><span class="remove">＋</span></li>`
+                )
+                .join('')
+            : '<li class="hint">Sin resultados</li>';
+        }, 200);
+      });
+
+      $('results').addEventListener('click', (e) => {
+        const item = e.target.closest('[data-add]');
+        if (!item) return;
+        addRoute(item.dataset.add);
+        $('search').value = '';
+        $('results').innerHTML = '';
+      });
+
+      $('selected').addEventListener('click', (e) => {
+        const item = e.target.closest('[data-id]');
+        if (!item) return;
+        if (e.target.closest('.remove')) return removeRoute(item.dataset.id);
+        const b = shown.get(item.dataset.id)?.summary?.bounds;
+        if (b)
+          map.fitBounds(
+            [
+              [b.south, b.west],
+              [b.north, b.east],
+            ],
+            { padding: [30, 30] }
+          );
+      });
+
+      function renderSelected() {
+        $('selected').innerHTML = [...shown.entries()]
+          .map(
+            ([id, e]) =>
+              `<li data-id="${esc(id)}"><span class="swatch" style="background:${e.color}"></span>` +
+              `<span class="code">${esc(e.summary?.code ?? id)}</span><span class="name">${esc(e.summary?.name ?? '')}</span>` +
+              `<span class="remove" title="Quitar">✕</span></li>`
+          )
+          .join('');
+        $('hint').hidden = shown.size > 0;
+      }
+
+      $('toggle').addEventListener('click', () => {
+        const panel = $('panel');
+        panel.classList.toggle('collapsed');
+        $('toggle').textContent = panel.classList.contains('collapsed') ? '▸' : '▾';
+      });
+
+      function persist() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify([...shown.keys()]));
+        } catch {}
+      }
+
+      function restore() {
+        try {
+          const ids = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+          ids.slice(0, MAX_ROUTES).forEach((id) => addRoute(id, { fit: false }));
+        } catch {}
+      }
+
+      restore();
+      connect();
+    </script>
+  </body>
+</html>

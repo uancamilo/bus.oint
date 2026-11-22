@@ -48,3 +48,17 @@ El script:
 5. Ubica cada parada sobre el circuito, en metros desde el inicio, y calcula las conexiones a pie de hasta 250 m entre paraderos, para los transbordos.
 
 Si la Alcaldía publica datos nuevos, reemplaza el GeoJSON correspondiente (con el mismo nombre), actualiza la tabla y las huellas de este archivo y vuelve a ejecutar `npm run data:build`.
+
+## Lugares conocidos (`places/`)
+
+Destinos frecuentes para buscar sin internet: estaciones del Metro, universidades, centros comerciales, parques, hospitales y terminales.
+
+- `places/lugares-fuente.json`: lista curada (editable) con nombre, categoría, alias ("udea", "u de a") y las consultas para buscar cada lugar.
+- `places/lugares.json`: coordenadas generadas desde **OpenStreetMap** (© OpenStreetMap contributors, licencia ODbL) con:
+
+  ```bash
+  cd server && npm run places:build
+  ```
+
+  El script consulta Nominatim a una consulta por segundo. Solo acepta resultados del tipo correcto: una estación del Metro debe ser `railway=station` y su nombre debe coincidir. Los lugares que ya tienen coordenadas no se vuelven a consultar, salvo con `-- --force`.
+- **Pendientes:** la Estación Sabaneta y el Parque Lleras no aparecen en OpenStreetMap con esos nombres; hay que ajustar sus consultas en `lugares-fuente.json` y volver a ejecutar el script.

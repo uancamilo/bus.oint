@@ -1,12 +1,35 @@
 import { Type, type FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox';
 
 import type { NetworkRepository } from '../network/network-store.ts';
-import { ErrorResponse, RouteDetail, RouteSummary } from './schemas.ts';
+import type { BusSimulator } from '../simulation/bus-simulator.ts';
+import { ErrorResponse, RouteBuses, RouteDetail, RouteSummary } from './schemas.ts';
 
-export const routeRoutes: FastifyPluginAsyncTypebox<{ network: NetworkRepository }> = async (
-  app,
-  { network }
-) => {
+export const routeRoutes: FastifyPluginAsyncTypebox<{
+  network: NetworkRepository;
+  simulator: BusSimulator;
+}> = async (app, { network, simulator }) => {
+  app.get(
+    '/rutas/:id/buses',
+    {
+      schema: {
+        tags: ['Rutas'],
+        summary: 'Posición actual de los buses simulados de una ruta',
+        description:
+          'Foto instantánea. Para recibir posiciones cada segundo, usa el WebSocket /tiempo-real.',
+        params: Type.Object({ id: Type.String({ examples: ['90282'] }) }),
+        response: { 200: RouteBuses, 404: ErrorResponse },
+      },
+    },
+    async (request, reply) => {
+      const { id } = request.params;
+      if (!simulator.hasRoute(id)) {
+        return reply.code(404).send({ error: 'not_found', message: `No existe la ruta ${id}` });
+      }
+      const at = simulator.now();
+      return { routeId: id, at, buses: simulator.busesOnRoute(id, at) };
+    }
+  );
+
   app.get(
     '/rutas',
     {

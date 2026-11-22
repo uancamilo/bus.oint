@@ -113,6 +113,63 @@ export const HealthResponse = Type.Object({
       }),
     }),
   }),
+  simulation: Type.Object({
+    buses: Type.Integer(),
+    spacingM: Type.Integer(),
+    speedKmh: Type.Number(),
+    realtimeClients: Type.Integer(),
+  }),
+});
+
+export const Bus = Type.Object(
+  {
+    id: Type.String({ examples: ['90282-3'] }),
+    routeId: Type.String(),
+    lat: Type.Number(),
+    lng: Type.Number(),
+    heading: Type.Integer({ description: 'Rumbo en grados (0 = norte, 90 = oriente)' }),
+    direction: Type.Union([Direction, Type.Null()], {
+      description: 'Sentido actual; null mientras cruza un hueco entre sentidos',
+    }),
+    visible: Type.Boolean({ description: 'false si va hacia la terminal: no dibujarlo' }),
+    atM: Type.Integer({ description: 'Posición sobre el circuito, en metros' }),
+    nextStop: Type.Union([
+      Type.Object({
+        id: Type.String(),
+        seq: Type.Integer(),
+        distanceM: Type.Integer(),
+        etaS: Type.Integer({ description: 'Segundos estimados de llegada' }),
+      }),
+      Type.Null(),
+    ]),
+  },
+  { $id: 'Bus' }
+);
+
+export const RouteBuses = Type.Object({
+  routeId: Type.String(),
+  at: Type.Integer({ description: 'Instante de la simulación (epoch ms)' }),
+  buses: Type.Array(Bus),
+});
+
+export const StopArrivals = Type.Object({
+  stopId: Type.String(),
+  at: Type.Integer({ description: 'Instante de la simulación (epoch ms)' }),
+  routes: Type.Array(
+    Type.Object({
+      route: RouteRef,
+      direction: Direction,
+      seq: Type.Integer({ description: 'Número de la parada dentro de ese sentido' }),
+      arrivals: Type.Array(
+        Type.Object({
+          busId: Type.String(),
+          etaS: Type.Integer({ description: 'Segundos para que llegue' }),
+          distanceM: Type.Integer({ description: 'Distancia por la ruta, en metros' }),
+        })
+      ),
+    }),
+    { description: 'Ordenado por la llegada más próxima' }
+  ),
 });
 
 /** Latitud/longitud limitadas al Valle de Aburrá con margen. */

@@ -133,3 +133,15 @@ describe('GET /docs', () => {
     assert.ok('/rutas' in body.paths && '/paradas/cercanas' in body.paths);
   });
 });
+
+describe('GET /demo', () => {
+  it('sirve el mapa de prueba y la raíz redirige a él', async () => {
+    const demo = await app.inject({ method: 'GET', url: '/demo' });
+    assert.equal(demo.statusCode, 200);
+    assert.match(String(demo.headers['content-type']), /text\/html/);
+    assert.match(demo.body, /tiempo-real/);
+    const root = await app.inject({ method: 'GET', url: '/' });
+    assert.equal(root.statusCode, 302);
+    assert.equal(root.headers.location, '/demo');
+  });
+});

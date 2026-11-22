@@ -2,12 +2,66 @@ import { Type, type FastifyPluginAsyncTypebox } from '@fastify/type-provider-typ
 
 import type { Stop } from '../data/network-types.ts';
 import type { NetworkRepository } from '../network/network-store.ts';
-import { ErrorResponse, Latitude, Longitude, NearbyStop, StopDetail } from './schemas.ts';
+import type { BusSimulator } from '../simulation/bus-simulator.ts';
+import {
+  ErrorResponse,
+  Latitude,
+  Longitude,
+  NearbyStop,
+  StopArrivals,
+  StopDetail,
+} from './schemas.ts';
 
-export const stopRoutes: FastifyPluginAsyncTypebox<{ network: NetworkRepository }> = async (
-  app,
-  { network }
-) => {
+export const stopRoutes: FastifyPluginAsyncTypebox<{
+  network: NetworkRepository;
+  simulator: BusSimulator;
+}> = async (app, { network, simulator }) => {
+  app.get(
+    '/paradas/:id/llegadas',
+    {
+      schema: {
+        tags: ['Paradas'],
+        summary: 'Próximos buses que llegarán a una parada, por ruta',
+        description:
+          'Tiempos calculados con las posiciones de la simulación: distancia por la ruta del ' +
+          'bus más cercano que viene, dividida por la velocidad.',
+        params: Type.Object({ id: Type.String({ examples: ['52588'] }) }),
+        querystring: Type.Object({
+          proximos: Type.Integer({
+            minimum: 1,
+            maximum: 5,
+            default: 3,
+            description: 'Cuántos buses por ruta',
+          }),
+        }),
+        response: { 200: StopArrivals, 404: ErrorResponse },
+      },
+    },
+    async (request, reply) => {
+      const { id } = request.params;
+      if (!network.getStop(id)) {
+        return reply.code(404).send({ error: 'not_found', message: `No existe la parada ${id}` });
+      }
+      const at = simulator.now();
+      return {
+        stopId: id,
+        at,
+        routes: simulator.stopArrivals(id, request.query.proximos, at).flatMap((entry) => {
+          const route = network.getRoute(entry.routeId);
+          if (!route) return [];
+          return [
+            {
+              route: { id: route.id, code: route.code, name: route.name },
+              direction: entry.direction,
+              seq: entry.seq,
+              arrivals: entry.arrivals,
+            },
+          ];
+        }),
+      };
+    }
+  );
+
   const withRoutes = (stop: Stop) => ({
     id: stop.id,
     address: stop.address,

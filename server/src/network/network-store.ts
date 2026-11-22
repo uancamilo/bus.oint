@@ -23,6 +23,8 @@ export interface NetworkRepository {
   nearbyStops(lat: number, lng: number, radiusM: number, limit: number): NearbyStop[];
   routeSummary(route: Route): RouteSummary;
   routeBounds(route: Route): Bounds;
+  allRoutes(): readonly Route[];
+  allStops(): Iterable<Stop>;
 }
 
 export interface NetworkInfo {
@@ -141,6 +143,14 @@ export class InMemoryNetworkStore implements NetworkRepository {
         a.score - b.score || a.route.code.localeCompare(b.route.code, 'es', { numeric: true })
     );
     return ranked.slice(0, limit).map(({ route }) => this.routeSummary(route));
+  }
+
+  allRoutes(): readonly Route[] {
+    return this.routes;
+  }
+
+  allStops(): Iterable<Stop> {
+    return this.stopsById.values();
   }
 
   getRoute(id: string): Route | undefined {

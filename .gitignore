@@ -44,3 +44,6 @@ example
 
 # backend: datos procesados (se regeneran con `cd server && npm run data:build`)
 /data/processed/
+
+# backend: base SQLite local (caché de búsquedas)
+/server/var/
