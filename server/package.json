@@ -8,11 +8,20 @@
     "node": ">=22"
   },
   "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
     "data:build": "tsx scripts/build-data.ts",
+    "test": "node --import tsx --test \"src/**/*.test.ts\"",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "proj4": "^2.23.0"
+    "@fastify/cors": "^11.4.3",
+    "@fastify/swagger": "^9.9.5",
+    "@fastify/swagger-ui": "^6.1.5",
+    "@fastify/type-provider-typebox": "^6.3.0",
+    "fastify": "^5.12.8",
+    "proj4": "^2.23.0",
+    "typebox": "^1.4.7"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

@@ -1,0 +1,9 @@
+/** Normaliza texto para búsquedas: minúsculas, sin tildes y con espacios simples. */
+export function normalizeText(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
