@@ -14,4 +14,15 @@ Proyecto orientado a la visualización, seguimiento vía GPS y monitoreo de unid
 
 ## 🛠️ Estado del Proyecto
 
-- Proyecto en etapa de inicialización y configuración inicial.
+- **Backend funcional** en [`server/`](server/README.md): rutas y paradas oficiales de Medellín, buses simulados en tiempo real, búsqueda de destinos y planificador de viajes con hasta 2 transbordos. Incluye un mapa de prueba en `/demo`.
+- **App móvil (Expo):** en desarrollo; falta conectarla al backend.
+
+## ▶️ Probar el prototipo
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+Abre `http://localhost:3000/demo` en el computador, o la dirección `http://192.168.x.x:3000/demo` que muestra la terminal en un celular conectado a la misma Wi-Fi. Más detalles en [`server/README.md`](server/README.md).

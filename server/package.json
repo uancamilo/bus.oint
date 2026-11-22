@@ -9,10 +9,13 @@
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "predev": "tsx scripts/ensure-data.ts",
     "start": "tsx src/server.ts",
-    "data:build": "tsx scripts/build-data.ts",
+    "prestart": "tsx scripts/ensure-data.ts",
     "test": "node --import tsx --test --test-timeout=15000 \"src/**/*.test.ts\"",
+    "pretest": "tsx scripts/ensure-data.ts",
     "typecheck": "tsc --noEmit",
+    "data:build": "tsx scripts/build-data.ts",
     "places:build": "tsx scripts/build-places.ts"
   },
   "dependencies": {
