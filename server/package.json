@@ -1,0 +1,22 @@
+{
+  "name": "bus-point-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Backend del prototipo bus.point: rutas, paradas, simulación de buses y planificador de viajes de Medellín",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "data:build": "tsx scripts/build-data.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "proj4": "^2.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
