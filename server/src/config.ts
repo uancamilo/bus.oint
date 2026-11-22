@@ -20,6 +20,10 @@ export const config = {
     /** Velocidad comercial promedio de los buses (km/h). */
     speedKmh: parseIntEnv('BUS_SPEED_KMH', process.env.BUS_SPEED_KMH, 18),
   },
+  planner: {
+    /** Distancia máxima a pie hasta/desde una parada (metros, línea recta). */
+    maxWalkM: parseIntEnv('MAX_WALK_M', process.env.MAX_WALK_M, 500),
+  },
   /** Cada cuánto se envían posiciones por WebSocket (ms). */
   tickMs: parseIntEnv('TICK_MS', process.env.TICK_MS, 1000),
   logLevel: process.env.LOG_LEVEL ?? 'info',

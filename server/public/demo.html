@@ -110,7 +110,25 @@
       .panel.collapsed .body {
         display: none;
       }
+      .list li.active {
+        background: rgba(37, 99, 235, 0.14);
+      }
+      .steps {
+        margin: 8px 0 0;
+        padding-left: 20px;
+        font-size: 13px;
+      }
+      .steps li {
+        margin: 6px 0;
+      }
+      .bus.mine {
+        border-width: 3px;
+        box-shadow:
+          0 0 0 4px rgba(250, 204, 21, 0.9),
+          0 1px 6px rgba(0, 0, 0, 0.5);
+      }
       input[type='search'] {
+        margin-top: 8px;
         width: 100%;
         padding: 9px 11px;
         border: 1px solid var(--line);
@@ -224,14 +242,25 @@
         <button class="toggle" id="toggle" aria-label="Contraer panel">▾</button>
       </header>
       <div class="body">
+        <h2>Cómo llegar</h2>
         <input
           type="search"
-          id="place"
-          placeholder="¿A dónde vas? Lugar o dirección (Enter: buscar más)"
+          id="origin"
+          placeholder="Desde: lugar o dirección (o toca el mapa)"
           autocomplete="off"
           enterkeyhint="search"
         />
-        <ul class="list" id="places"></ul>
+        <ul class="list" id="origin-list"></ul>
+        <input
+          type="search"
+          id="destination"
+          placeholder="¿A dónde vas? (Enter: buscar más)"
+          autocomplete="off"
+          enterkeyhint="search"
+        />
+        <ul class="list" id="destination-list"></ul>
+        <ul class="list" id="trips"></ul>
+        <ol class="steps" id="steps"></ol>
         <h2>Rutas</h2>
         <input
           type="search"
@@ -404,14 +433,17 @@
           .setLatLng(latlng)
           .setContent('<span class="muted">Buscando paradas…</span>')
           .openOn(map);
+        const endLinks =
+          `<p><a data-end="origin" data-lat="${lat}" data-lng="${lng}">Salir desde aquí</a> · ` +
+          `<a data-end="destination" data-lat="${lat}" data-lng="${lng}">Ir hasta aquí</a></p>`;
         try {
           const stops = await api(
             `/paradas/cercanas?lat=${lat.toFixed(6)}&lng=${lng.toFixed(6)}&radio=400&limite=5`
           );
           popup.setContent(
             stops.length === 0
-              ? '<div class="popup">No hay paradas a menos de 400 m</div>'
-              : `<div class="popup"><h3>${esc(title)}</h3><span class="muted">Paradas a menos de 400 m</span><ul>${stops
+              ? `<div class="popup">${endLinks}No hay paradas a menos de 400 m</div>`
+              : `<div class="popup"><h3>${esc(title)}</h3>${endLinks}<span class="muted">Paradas a menos de 400 m</span><ul>${stops
                   .map(
                     (s) =>
                       `<li>${esc(s.address || `Parada ${s.id}`)} <span class="muted">(${s.distanceM} m)</span><br>` +
@@ -428,18 +460,23 @@
         }
       }
 
-      // --- Destinos ("¿a dónde vas?") ---------------------------------------------------
-      let placeTimer;
-      let placeMarker;
+      // --- Cómo llegar: origen, destino y opciones de viaje ------------------------------
       const SOURCE_LABEL = { lugar: 'Lugar', parada: 'Dirección', osm: 'OpenStreetMap' };
+      const END_COLOR = { origin: '#16a34a', destination: '#dc2626' };
+      const ends = { origin: null, destination: null };
+      const endMarkers = {};
+      const journeyLayer = L.layerGroup().addTo(map);
+      /** Rutas del viaje elegido: solo se muestran sus buses (no el trazado completo). */
+      const planned = new Map();
+      let journeys = [];
 
-      async function searchPlaces(q, external) {
-        if (q.length < 2) return ($('places').innerHTML = '');
-        if (external)
-          $('places').innerHTML = '<li class="hint">Buscando también en OpenStreetMap…</li>';
+      async function searchPlaces(kind, q, external) {
+        const list = $(`${kind}-list`);
+        if (q.length < 2) return (list.innerHTML = '');
+        if (external) list.innerHTML = '<li class="hint">Buscando también en OpenStreetMap…</li>';
         try {
           const data = await api(
-            `/lugares?q=${encodeURIComponent(q)}&limite=8&externo=${external ? 'true' : 'false'}`
+            `/lugares?q=${encodeURIComponent(q)}&limite=6&externo=${external ? 'true' : 'false'}`
           );
           const items = data.results.map(
             (r, i) =>
@@ -455,38 +492,154 @@
             );
           }
           if (data.attribution) items.push(`<li class="hint">${esc(data.attribution)}</li>`);
-          $('places').innerHTML = items.join('');
-          $('places').results = data.results;
-        } catch (error) {
-          $('places').innerHTML = '<li class="hint">No se pudo buscar</li>';
+          list.innerHTML = items.join('');
+          list.results = data.results;
+        } catch {
+          list.innerHTML = '<li class="hint">No se pudo buscar</li>';
         }
       }
 
-      $('place').addEventListener('input', (e) => {
-        clearTimeout(placeTimer);
-        placeTimer = setTimeout(() => searchPlaces(e.target.value.trim(), false), 200);
-      });
-      $('place').addEventListener('keydown', (e) => {
-        if (e.key !== 'Enter') return;
-        clearTimeout(placeTimer);
-        searchPlaces(e.target.value.trim(), true);
-      });
-      $('places').addEventListener('click', (e) => {
-        const item = e.target.closest('[data-place]');
-        const place = item && $('places').results?.[Number(item.dataset.place)];
-        if (!place) return;
-        placeMarker?.remove();
-        placeMarker = L.marker([place.lat, place.lng]).addTo(map);
-        map.setView([place.lat, place.lng], 16);
-        showNearby(L.latLng(place.lat, place.lng), place.name);
-        $('places').innerHTML = '';
-        $('place').value = place.name;
+      for (const kind of ['origin', 'destination']) {
+        let timer;
+        const input = $(kind);
+        const list = $(`${kind}-list`);
+        input.addEventListener('input', () => {
+          clearTimeout(timer);
+          timer = setTimeout(() => searchPlaces(kind, input.value.trim(), false), 200);
+        });
+        input.addEventListener('keydown', (e) => {
+          if (e.key !== 'Enter') return;
+          clearTimeout(timer);
+          searchPlaces(kind, input.value.trim(), true);
+        });
+        list.addEventListener('click', (e) => {
+          const item = e.target.closest('[data-place]');
+          const place = item && list.results?.[Number(item.dataset.place)];
+          if (!place) return;
+          list.innerHTML = '';
+          setEnd(kind, place);
+        });
+      }
+
+      function setEnd(kind, place) {
+        ends[kind] = place;
+        $(kind).value = place.name;
+        endMarkers[kind]?.remove();
+        endMarkers[kind] = L.circleMarker([place.lat, place.lng], {
+          radius: 9,
+          color: '#fff',
+          weight: 3,
+          fillColor: END_COLOR[kind],
+          fillOpacity: 1,
+        })
+          .bindTooltip(kind === 'origin' ? 'Origen' : 'Destino')
+          .addTo(map);
+        map.closePopup();
+        if (ends.origin && ends.destination) planTrip();
+        else map.setView([place.lat, place.lng], 15);
+      }
+
+      const clockTime = (ms) =>
+        new Date(ms).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+      const mins = (s) => `${Math.max(1, Math.round(s / 60))} min`;
+
+      async function planTrip() {
+        const o = ends.origin;
+        const d = ends.destination;
+        $('trips').innerHTML = '<li class="hint">Calculando el mejor camino…</li>';
+        $('steps').innerHTML = '';
+        try {
+          const data = await api(
+            `/viajes?origenLat=${o.lat.toFixed(6)}&origenLng=${o.lng.toFixed(6)}` +
+              `&destinoLat=${d.lat.toFixed(6)}&destinoLng=${d.lng.toFixed(6)}` +
+              `&origenNombre=${encodeURIComponent(o.name)}&destinoNombre=${encodeURIComponent(d.name)}`
+          );
+          journeys = data.journeys;
+          const items = journeys.map(
+            (j, i) =>
+              `<li data-trip="${i}"><span class="code">${mins(j.durationS)}</span><span class="name">` +
+              `${j.routeCodes.length ? j.routeCodes.map(esc).join(' → ') : 'Caminando'}<br>` +
+              `<span class="hint">${j.transfers ? `${j.transfers} transbordo${j.transfers > 1 ? 's' : ''} · ` : ''}` +
+              `camina ${j.walkM} m · llega ${clockTime(j.arriveAt)}</span></span></li>`
+          );
+          for (const notice of data.notices) items.push(`<li class="hint">${esc(notice)}</li>`);
+          $('trips').innerHTML = items.join('');
+          if (journeys.length > 0) showJourney(0);
+        } catch {
+          $('trips').innerHTML = '<li class="hint">Elige puntos dentro del Valle de Aburrá</li>';
+        }
+      }
+
+      $('trips').addEventListener('click', (e) => {
+        const item = e.target.closest('[data-trip]');
+        if (item) showJourney(Number(item.dataset.trip));
       });
 
-      // Enlaces de ruta dentro de los popups.
+      function showJourney(index) {
+        const journey = journeys[index];
+        document
+          .querySelectorAll('#trips li')
+          .forEach((li) => li.classList.toggle('active', li.dataset.trip === String(index)));
+        journeyLayer.clearLayers();
+        for (const entry of planned.values()) entry.layer.remove();
+        planned.clear();
+
+        const steps = [];
+        const bounds = L.latLngBounds([]);
+        journey.legs.forEach((leg, n) => {
+          leg.path.forEach((p) => bounds.extend(p));
+          if (leg.type === 'walk') {
+            L.polyline(leg.path, { color: '#6b7280', weight: 4, dashArray: '4 8' }).addTo(
+              journeyLayer
+            );
+            steps.push(
+              `🚶 Camina ${leg.distanceM} m (${mins(leg.durationS)}) hasta <b>${esc(leg.to.name)}</b>`
+            );
+            return;
+          }
+          const color = COLORS[(n + 3) % COLORS.length];
+          L.polyline(leg.path, { color, weight: 7, opacity: 0.85 }).addTo(journeyLayer);
+          L.circleMarker([leg.from.lat, leg.from.lng], {
+            radius: 6,
+            color,
+            weight: 3,
+            fillColor: '#fff',
+            fillOpacity: 1,
+          })
+            .bindTooltip(`Sube al ${leg.route.code}`)
+            .addTo(journeyLayer);
+          if (!shown.has(leg.route.id)) {
+            planned.set(leg.route.id, {
+              color,
+              layer: L.layerGroup().addTo(map),
+              buses: new Map(),
+              summary: { code: leg.route.code },
+              highlight: leg.busId,
+            });
+          }
+          steps.push(
+            `🚌 Toma el <b>${esc(leg.route.code)}</b> ${esc(leg.route.name)} — llega en ${mins(leg.waitS)}. ` +
+              `${leg.stopCount} paradas (${mins(leg.durationS)}). Bájate en <b>${esc(leg.to.name)}</b>`
+          );
+        });
+        steps.push(`📍 Llegas a las ${clockTime(journey.arriveAt)}`);
+        $('steps').innerHTML = steps.map((s) => `<li>${s}</li>`).join('');
+        if (bounds.isValid()) map.fitBounds(bounds, { padding: [40, 40] });
+        subscribe();
+      }
+
+      // Enlaces dentro de los popups: ver una ruta, o fijar origen/destino en el mapa.
       document.addEventListener('click', (e) => {
         const link = e.target.closest('[data-route]');
         if (link) addRoute(link.dataset.route);
+        const end = e.target.closest('[data-end]');
+        if (end) {
+          setEnd(end.dataset.end, {
+            lat: Number(end.dataset.lat),
+            lng: Number(end.dataset.lng),
+            name: 'Punto en el mapa',
+          });
+        }
       });
 
       // --- Tiempo real ----------------------------------------------------------------
@@ -526,21 +679,26 @@
 
       function subscribe() {
         if (socket?.readyState === WebSocket.OPEN) {
-          socket.send(JSON.stringify({ type: 'subscribe', routeIds: [...shown.keys()] }));
+          const routeIds = [...new Set([...shown.keys(), ...planned.keys()])].slice(0, MAX_ROUTES);
+          socket.send(JSON.stringify({ type: 'subscribe', routeIds }));
         }
       }
 
-      function busIcon(color, heading) {
+      /** `highlight`: el bus que el viaje elegido recomienda tomar. */
+      function busIcon(color, heading, highlight = false) {
+        const size = highlight ? 30 : 22;
         return L.divIcon({
           className: '',
-          iconSize: [22, 22],
-          html: `<div class="bus" style="background:${color};transform:rotate(${heading}deg)"></div>`,
+          iconSize: [size, size],
+          html:
+            `<div class="bus${highlight ? ' mine' : ''}" ` +
+            `style="background:${color};transform:rotate(${heading}deg)"></div>`,
         });
       }
 
       function updateBuses(routes) {
         for (const [routeId, buses] of Object.entries(routes)) {
-          const entry = shown.get(routeId);
+          const entry = shown.get(routeId) ?? planned.get(routeId);
           if (!entry) continue;
           const seen = new Set();
           for (const bus of buses) {
@@ -550,15 +708,15 @@
             const target = L.latLng(bus.lat, bus.lng);
             if (!marker) {
               marker = L.marker(target, {
-                icon: busIcon(entry.color, bus.heading),
-                zIndexOffset: 1000,
+                icon: busIcon(entry.color, bus.heading, bus.id === entry.highlight),
+                zIndexOffset: bus.id === entry.highlight ? 2000 : 1000,
               })
                 .bindPopup('', { className: 'popup' })
                 .addTo(entry.layer);
               entry.buses.set(bus.id, marker);
             } else {
               animate(marker, target);
-              marker.setIcon(busIcon(entry.color, bus.heading));
+              marker.setIcon(busIcon(entry.color, bus.heading, bus.id === entry.highlight));
             }
             const code = entry.summary?.code ?? routeId;
             marker.setPopupContent(

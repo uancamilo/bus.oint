@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 
 import {
   NETWORK_FORMAT_VERSION,
+  type Footpath,
   type NetworkData,
   type Route,
   type Stop,
@@ -25,6 +26,8 @@ export interface NetworkRepository {
   routeBounds(route: Route): Bounds;
   allRoutes(): readonly Route[];
   allStops(): Iterable<Stop>;
+  /** Conexiones a pie entre paradas cercanas (para transbordos). */
+  footpaths(): readonly Footpath[];
 }
 
 export interface NetworkInfo {
@@ -74,6 +77,7 @@ const METERS_PER_DEG_LAT = 111_320;
 export class InMemoryNetworkStore implements NetworkRepository {
   readonly info: NetworkInfo;
   private readonly routes: Route[];
+  private readonly footpathList: Footpath[];
   private readonly routesById = new Map<string, Route>();
   private readonly stopsById = new Map<string, Stop>();
   private readonly searchText = new Map<string, { code: string; text: string }>();
@@ -88,6 +92,7 @@ export class InMemoryNetworkStore implements NetworkRepository {
       );
     }
     this.routes = data.routes;
+    this.footpathList = data.footpaths;
     for (const route of data.routes) {
       this.routesById.set(route.id, route);
       this.searchText.set(route.id, {
@@ -151,6 +156,10 @@ export class InMemoryNetworkStore implements NetworkRepository {
 
   allStops(): Iterable<Stop> {
     return this.stopsById.values();
+  }
+
+  footpaths(): readonly Footpath[] {
+    return this.footpathList;
   }
 
   getRoute(id: string): Route | undefined {

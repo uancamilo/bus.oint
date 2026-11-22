@@ -134,6 +134,41 @@ export class BusSimulator {
     return arrivals.sort((a, b) => a.distanceM - b.distanceM).slice(0, count);
   }
 
+  /**
+   * Primer bus que pasa por la posición `atM` a partir del instante `fromMs` (sin redondeo).
+   * Lo usa el planificador para encadenar esperas y trayectos con precisión.
+   */
+  nextBus(routeId: string, atM: number, fromMs: number): { busId: string; atMs: number } | null {
+    const track = this.tracks.get(routeId);
+    if (!track) return null;
+    let best = Number.POSITIVE_INFINITY;
+    let bestIndex = 0;
+    for (let i = 0; i < track.busCount; i++) {
+      const distanceM = mod(atM - this.busPosition(track, i, fromMs), track.lengthM);
+      if (distanceM < best) {
+        best = distanceM;
+        bestIndex = i;
+      }
+    }
+    return { busId: busId(track, bestIndex), atMs: fromMs + (best / this.speedMps) * 1000 };
+  }
+
+  /** Tramo del trazado de una ruta entre dos posiciones del circuito (`fromM` < `toM`). */
+  pathBetween(routeId: string, fromM: number, toM: number): [number, number][] {
+    const track = this.tracks.get(routeId);
+    if (!track) return [];
+    const start = pointAt(track, fromM);
+    const end = pointAt(track, toM);
+    const inner = track.route.path.filter(
+      (_, i) => track.cumulative[i]! > fromM && track.cumulative[i]! < toM
+    );
+    return [
+      [round(start.lat, 6), round(start.lng, 6)],
+      ...inner,
+      [round(end.lat, 6), round(end.lng, 6)],
+    ];
+  }
+
   /** Próximas llegadas a una parada física, por ruta y sentido. */
   stopArrivals(stopId: string, count: number, nowMs = this.clock()): StopArrivals[] {
     const entries = this.stopIndex.get(stopId) ?? [];

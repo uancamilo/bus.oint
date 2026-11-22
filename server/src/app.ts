@@ -11,9 +11,11 @@ import { placeRoutes } from './http/places.ts';
 import { realtimeRoutes } from './http/realtime.ts';
 import { routeRoutes } from './http/routes.ts';
 import { stopRoutes } from './http/stops.ts';
+import { tripRoutes } from './http/trips.ts';
 import type { NetworkRepository } from './network/network-store.ts';
 import { SqliteGeocodeCache } from './places/geocode-cache.ts';
 import { PlaceSearchService } from './places/place-search.ts';
+import { DEFAULT_PLANNER, TripPlanner, type PlannerConfig } from './planner/trip-planner.ts';
 import { RealtimeHub } from './realtime/realtime-hub.ts';
 import { BusSimulator, type Clock, type SimulationConfig } from './simulation/bus-simulator.ts';
 
@@ -26,6 +28,7 @@ export interface AppOptions {
   clock?: Clock;
   /** Buscador de destinos; por defecto solo local, sin lugares conocidos ni internet. */
   places?: PlaceSearchService;
+  planner?: Partial<PlannerConfig>;
   logger?: FastifyServerOptions['logger'];
 }
 
@@ -38,12 +41,14 @@ export async function buildApp({
   tickMs = 1000,
   clock,
   places,
+  planner: plannerConfig,
   logger = false,
 }: AppOptions) {
   const app = Fastify({ logger }).withTypeProvider<TypeBoxTypeProvider>();
   const simulator = new BusSimulator(network, simulation, clock);
   const hub = new RealtimeHub(simulator, tickMs);
   app.addHook('onClose', async () => hub.close());
+  const planner = new TripPlanner(network, simulator, { ...DEFAULT_PLANNER, ...plannerConfig });
   const placeSearch =
     places ?? new PlaceSearchService([], network, new SqliteGeocodeCache(':memory:'), null);
 
@@ -64,6 +69,7 @@ export async function buildApp({
       tags: [
         { name: 'Rutas', description: 'Rutas de bus, sus trazados y sus buses' },
         { name: 'Paradas', description: 'Paraderos físicos y próximas llegadas' },
+        { name: 'Viajes', description: 'Planificador de viajes en bus' },
         { name: 'Lugares', description: 'Búsqueda de destinos y direcciones' },
         { name: 'Tiempo real', description: 'WebSocket con posiciones de buses' },
         { name: 'Sistema', description: 'Estado del servidor' },
@@ -75,6 +81,7 @@ export async function buildApp({
   await app.register(healthRoutes, { network, simulator, hub });
   await app.register(routeRoutes, { network, simulator });
   await app.register(stopRoutes, { network, simulator });
+  await app.register(tripRoutes, { planner });
   await app.register(placeRoutes, { places: placeSearch });
   await app.register(realtimeRoutes, { hub });
   await app.register(demoRoutes);

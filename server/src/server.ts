@@ -18,6 +18,7 @@ const places = new PlaceSearchService(
 const app = await buildApp({
   network,
   places,
+  planner: config.planner,
   simulation: config.simulation,
   tickMs: config.tickMs,
   logger: { level: config.logLevel },
