@@ -1,0 +1,1126 @@
+{
+  "attribution": "© OpenStreetMap contributors (ODbL)",
+  "generatedAt": "2026-11-22T21:42:21.096Z",
+  "places": [
+    {
+      "id": "metro-niquia",
+      "name": "Estación Niquía",
+      "category": "metro",
+      "aliases": [
+        "niquia"
+      ],
+      "lat": 6.3378541,
+      "lng": -75.5442646,
+      "osm": {
+        "id": "node/8621185731",
+        "kind": "station",
+        "displayName": "Niquía, Rotonda Niquía, Bello, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 051053, Colombia",
+        "query": "Estación Niquía, Bello | Estación del Metro Niquía | Estación Metro Niquía | Niquía, Bello"
+      }
+    },
+    {
+      "id": "metro-bello",
+      "name": "Estación Bello",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.329959,
+      "lng": -75.5537247,
+      "osm": {
+        "id": "way/607681834",
+        "kind": "station",
+        "displayName": "Bello, Calle 44, La Estación, Bello, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 051053, Colombia",
+        "query": "Estación Bello, Bello | Estación del Metro Bello | Estación Metro Bello | Bello, Bello"
+      }
+    },
+    {
+      "id": "metro-madera",
+      "name": "Estación Madera",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.3160044,
+      "lng": -75.5553357,
+      "osm": {
+        "id": "way/607683610",
+        "kind": "station",
+        "displayName": "Madera, Avenida Regional, La Florida, Comuna 5 - Castilla, Perímetro Urbano Medellín, Bello, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 051053, Colombia",
+        "query": "Estación Madera, Bello | Estación del Metro Madera | Estación Metro Madera | Madera, Bello"
+      }
+    },
+    {
+      "id": "metro-acevedo",
+      "name": "Estación Acevedo",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2999699,
+      "lng": -75.5585347,
+      "osm": {
+        "id": "way/363347844",
+        "kind": "station",
+        "displayName": "Acevedo, Avenida Regional, Héctor Abad Gómez, Comuna 5 - Castilla, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 005004, Colombia",
+        "query": "Estación Acevedo, Medellín | Estación del Metro Acevedo | Estación Metro Acevedo | Acevedo, Medellín"
+      }
+    },
+    {
+      "id": "metro-tricentenario",
+      "name": "Estación Tricentenario",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.290315,
+      "lng": -75.5647112,
+      "osm": {
+        "id": "way/504572294",
+        "kind": "station",
+        "displayName": "Tricentenario, Avenida Regional, Héctor Abad Gómez, Comuna 5 - Castilla, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 005004, Colombia",
+        "query": "Estación Tricentenario, Medellín | Estación del Metro Tricentenario | Estación Metro Tricentenario | Tricentenario, Medellín"
+      }
+    },
+    {
+      "id": "metro-caribe",
+      "name": "Estación Caribe",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2776336,
+      "lng": -75.5692904,
+      "osm": {
+        "id": "way/36836715",
+        "kind": "station",
+        "displayName": "Caribe, Avenida Regional, Terminal de Transporte, Comuna 5 - Castilla, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050006, Colombia",
+        "query": "Estación Caribe, Medellín | Estación del Metro Caribe | Estación Metro Caribe | Caribe, Medellín"
+      }
+    },
+    {
+      "id": "metro-universidad",
+      "name": "Estación Universidad",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2694084,
+      "lng": -75.5658075,
+      "osm": {
+        "id": "way/921531398",
+        "kind": "station",
+        "displayName": "Universidad, Calle 73, Ciudad Universitaria, Comuna 4 - Aranjuez, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050010, Colombia",
+        "query": "Estación Universidad, Medellín | Estación del Metro Universidad | Estación Metro Universidad | Universidad, Medellín"
+      }
+    },
+    {
+      "id": "metro-hospital",
+      "name": "Estación Hospital",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2638576,
+      "lng": -75.5633347,
+      "osm": {
+        "id": "way/105358403",
+        "kind": "platform",
+        "displayName": "Estación hospital metro, Calle 67, Sevilla, Comuna 4 - Aranjuez, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050010, Colombia",
+        "query": "Estación Hospital, Medellín | Estación del Metro Hospital | Estación Metro Hospital | Hospital, Medellín"
+      }
+    },
+    {
+      "id": "metro-prado",
+      "name": "Estación Prado",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.256906,
+      "lng": -75.5661371,
+      "osm": {
+        "id": "way/934500124",
+        "kind": "station",
+        "displayName": "Prado, Avenida Oriental, Estación Villa, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050012, Colombia",
+        "query": "Estación Prado, Medellín | Estación del Metro Prado | Estación Metro Prado | Prado, Medellín"
+      }
+    },
+    {
+      "id": "metro-parque-berrio",
+      "name": "Estación Parque Berrío",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2505867,
+      "lng": -75.568174,
+      "osm": {
+        "id": "way/934504294",
+        "kind": "station",
+        "displayName": "Parque Berrío, Calle 52, La Candelaria, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050012, Colombia",
+        "query": "Estación Parque Berrío, Medellín | Estación del Metro Parque Berrío | Estación Metro Parque Berrío | Parque Berrío, Medellín"
+      }
+    },
+    {
+      "id": "metro-san-antonio",
+      "name": "Estación San Antonio",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2471899,
+      "lng": -75.5697493,
+      "osm": {
+        "id": "way/105333551",
+        "kind": "platform",
+        "displayName": "Estación Metro San Antonio. Línea A, Ciclorruta Paseo Bolívar, La Candelaria, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050012, Colombia",
+        "query": "Estación San Antonio, Medellín | Estación del Metro San Antonio | Estación Metro San Antonio | San Antonio, Medellín"
+      }
+    },
+    {
+      "id": "metro-alpujarra",
+      "name": "Estación Alpujarra",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2429323,
+      "lng": -75.5714135,
+      "osm": {
+        "id": "way/935493290",
+        "kind": "station",
+        "displayName": "Alpujarra, Carrera 51, Calle Nueva, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050015, Colombia",
+        "query": "Estación Alpujarra, Medellín | Estación del Metro Alpujarra | Estación Metro Alpujarra | Alpujarra, Medellín"
+      }
+    },
+    {
+      "id": "metro-exposiciones",
+      "name": "Estación Exposiciones",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.238416,
+      "lng": -75.5731663,
+      "osm": {
+        "id": "way/935493298",
+        "kind": "station",
+        "displayName": "Exposiciones, Avenida Calle 37, Calle Nueva, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050015, Colombia",
+        "query": "Estación Exposiciones, Medellín | Estación del Metro Exposiciones | Estación Metro Exposiciones | Exposiciones, Medellín"
+      }
+    },
+    {
+      "id": "metro-industriales",
+      "name": "Estación Industriales",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2300373,
+      "lng": -75.5756331,
+      "osm": {
+        "id": "way/935493310",
+        "kind": "station",
+        "displayName": "Industriales, Avenida Regional, Colombia, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050020, Colombia",
+        "query": "Estación Industriales, Medellín | Estación del Metro Industriales | Estación Metro Industriales | Industriales, Medellín"
+      }
+    },
+    {
+      "id": "metro-poblado",
+      "name": "Estación Poblado",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2119618,
+      "lng": -75.5780773,
+      "osm": {
+        "id": "way/105309210",
+        "kind": "platform",
+        "displayName": "Estación Metro Poblado, Avenida Regional, La Aguacatala, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050024, Colombia",
+        "query": "Estación Poblado, Medellín | Estación del Metro Poblado | Estación Metro Poblado | Poblado, Medellín"
+      }
+    },
+    {
+      "id": "metro-aguacatala",
+      "name": "Estación Aguacatala",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.1939131,
+      "lng": -75.5818121,
+      "osm": {
+        "id": "way/935657177",
+        "kind": "station",
+        "displayName": "Aguacatala, Carrera 48C, Santa María de Los Ángeles, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 055411, Colombia",
+        "query": "Estación Aguacatala, Medellín | Estación del Metro Aguacatala | Estación Metro Aguacatala | Aguacatala, Medellín"
+      }
+    },
+    {
+      "id": "metro-ayura",
+      "name": "Estación Ayurá",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.1861448,
+      "lng": -75.5860697,
+      "osm": {
+        "id": "way/935663461",
+        "kind": "station",
+        "displayName": "Estación del Metro Ayurá, Avenida Regional, Envigado, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 055411, Colombia",
+        "query": "Estación Ayurá, Envigado | Estación del Metro Ayurá | Estación Metro Ayurá | Ayurá, Envigado"
+      }
+    },
+    {
+      "id": "metro-envigado",
+      "name": "Estación Envigado",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.1747224,
+      "lng": -75.5970645,
+      "osm": {
+        "id": "node/13968486423",
+        "kind": "station",
+        "displayName": "Estación del Metro Envigado, Autopista Sur, Itagüí, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 055412, Colombia",
+        "query": "Estación Envigado, Envigado | Estación del Metro Envigado | Estación Metro Envigado | Envigado, Envigado"
+      }
+    },
+    {
+      "id": "metro-itagui",
+      "name": "Estación Itagüí",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.1630006,
+      "lng": -75.6065851,
+      "osm": {
+        "id": "node/13968486424",
+        "kind": "station",
+        "displayName": "Estación del Metro Itagüí, Avenida Regional, San Isidro, Sabaneta, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 055412, Colombia",
+        "query": "Estación Itagüí, Itagüí | Estación del Metro Itagüí | Estación Metro Itagüí | Itagüí, Itagüí"
+      }
+    },
+    {
+      "id": "metro-la-estrella",
+      "name": "Estación La Estrella",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.1527424,
+      "lng": -75.6264457,
+      "osm": {
+        "id": "way/335384477",
+        "kind": "station",
+        "displayName": "Estación de Metro de la Estrella, Carrera 49, Cañaveralejo, Sabaneta, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 055450, Colombia",
+        "query": "Estación La Estrella, La Estrella | Estación del Metro La Estrella | Estación Metro La Estrella | La Estrella, La Estrella"
+      }
+    },
+    {
+      "id": "metro-cisneros",
+      "name": "Estación Cisneros",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2490827,
+      "lng": -75.5751058,
+      "osm": {
+        "id": "way/105550116",
+        "kind": "platform",
+        "displayName": "Estación de Metro Cisneros, Calle 46, Corazón de Jesús, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050015, Colombia",
+        "query": "Estación Cisneros, Medellín | Estación del Metro Cisneros | Estación Metro Cisneros | Cisneros, Medellín"
+      }
+    },
+    {
+      "id": "metro-suramericana",
+      "name": "Estación Suramericana",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2529678,
+      "lng": -75.5829479,
+      "osm": {
+        "id": "way/929621147",
+        "kind": "station",
+        "displayName": "Suramericana, Calle 47D, Suramericana, Comuna 11 - Laureles-Estadio, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050031, Colombia",
+        "query": "Estación Suramericana, Medellín | Estación del Metro Suramericana | Estación Metro Suramericana | Suramericana, Medellín"
+      }
+    },
+    {
+      "id": "metro-estadio",
+      "name": "Estación Estadio",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2533247,
+      "lng": -75.588234,
+      "osm": {
+        "id": "way/918213503",
+        "kind": "station",
+        "displayName": "Estadio, Ciclorruta La Hueso, Florida Nueva, Comuna 11 - Laureles-Estadio, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050031, Colombia",
+        "query": "Estación Estadio, Medellín | Estación del Metro Estadio | Estación Metro Estadio | Estadio, Medellín"
+      }
+    },
+    {
+      "id": "metro-floresta",
+      "name": "Estación Floresta",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2587018,
+      "lng": -75.5977433,
+      "osm": {
+        "id": "way/918213505",
+        "kind": "station",
+        "displayName": "Floresta, Avenida 80, Estadio, Comuna 11 - Laureles-Estadio, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050035, Colombia",
+        "query": "Estación Floresta, Medellín | Estación del Metro Floresta | Estación Metro Floresta | Floresta, Medellín"
+      }
+    },
+    {
+      "id": "metro-santa-lucia",
+      "name": "Estación Santa Lucía",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2579961,
+      "lng": -75.6038455,
+      "osm": {
+        "id": "way/932453764",
+        "kind": "station",
+        "displayName": "Santa Lucía, Calle 47D, La Floresta, Comuna 12 - La América, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050035, Colombia",
+        "query": "Estación Santa Lucía, Medellín | Estación del Metro Santa Lucía | Estación Metro Santa Lucía | Santa Lucía, Medellín"
+      }
+    },
+    {
+      "id": "metro-san-javier",
+      "name": "Estación San Javier",
+      "category": "metro",
+      "aliases": [],
+      "lat": 6.2569996,
+      "lng": -75.6139695,
+      "osm": {
+        "id": "way/105538492",
+        "kind": "platform",
+        "displayName": "Estación San Javier, Calle 45, San Javier Numero 2, Comuna 13 - San Javier, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050033, Colombia",
+        "query": "Estación San Javier, Medellín | Estación del Metro San Javier | Estación Metro San Javier | San Javier, Medellín"
+      }
+    },
+    {
+      "id": "u-udea",
+      "name": "Universidad de Antioquia",
+      "category": "universidad",
+      "aliases": [
+        "udea",
+        "u de a",
+        "ciudad universitaria"
+      ],
+      "lat": 6.2679795,
+      "lng": -75.5687589,
+      "osm": {
+        "id": "relation/17863554",
+        "kind": "university",
+        "displayName": "Universidad de Antioquia, 53-108, Calle 67, El Chagualo, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050010, Colombia",
+        "query": "Universidad de Antioquia, Medellín | Universidad de Antioquia"
+      }
+    },
+    {
+      "id": "u-unal",
+      "name": "Universidad Nacional, sede Medellín",
+      "category": "universidad",
+      "aliases": [
+        "unal",
+        "nacional"
+      ],
+      "lat": 6.262958,
+      "lng": -75.5771705,
+      "osm": {
+        "id": "relation/20187173",
+        "kind": "university",
+        "displayName": "Universidad Nacional de Colombia, Avenida Regional, El Chagualo, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050010, Colombia",
+        "query": "Universidad Nacional de Colombia, Medellín | Universidad Nacional de Colombia"
+      }
+    },
+    {
+      "id": "u-eafit",
+      "name": "Universidad EAFIT",
+      "category": "universidad",
+      "aliases": [
+        "eafit"
+      ],
+      "lat": 6.2002022,
+      "lng": -75.5784855,
+      "osm": {
+        "id": "way/33784057",
+        "kind": "university",
+        "displayName": "Universidad EAFIT, 7 sur - 50, Carrera 49, La Aguacatala, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050023, Colombia",
+        "query": "Universidad EAFIT, Medellín"
+      }
+    },
+    {
+      "id": "u-upb",
+      "name": "Universidad Pontificia Bolivariana",
+      "category": "universidad",
+      "aliases": [
+        "upb",
+        "bolivariana"
+      ],
+      "lat": 6.2419444,
+      "lng": -75.5895294,
+      "osm": {
+        "id": "way/230302492",
+        "kind": "university",
+        "displayName": "Universidad Pontificia Bolivariana, 70 - 01, Circular 1, San Joaquín, Comuna 11 - Laureles-Estadio, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050031, Colombia",
+        "query": "Universidad Pontificia Bolivariana, Medellín"
+      }
+    },
+    {
+      "id": "u-udem",
+      "name": "Universidad de Medellín",
+      "category": "universidad",
+      "aliases": [
+        "udem",
+        "u de m"
+      ],
+      "lat": 6.2310101,
+      "lng": -75.6114011,
+      "osm": {
+        "id": "way/218900163",
+        "kind": "university",
+        "displayName": "Universidad de Medellín, Carrera 87, Los Alpes, Comuna 16 - Belén, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050026, Colombia",
+        "query": "Universidad de Medellín, Medellín"
+      }
+    },
+    {
+      "id": "u-itm",
+      "name": "ITM Robledo",
+      "category": "universidad",
+      "aliases": [
+        "itm",
+        "instituto tecnologico metropolitano"
+      ],
+      "lat": 6.2746337,
+      "lng": -75.588775,
+      "osm": {
+        "id": "way/269921174",
+        "kind": "university",
+        "displayName": "Institución Universitaria ITM - Campus Robledo, Transversal 73, La Pilarica, Comuna 7 - Robledo, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050034, Colombia",
+        "query": "ITM Robledo | Instituto Tecnológico Metropolitano, Medellín | Instituto Tecnológico Metropolitano"
+      }
+    },
+    {
+      "id": "u-poli",
+      "name": "Politécnico Jaime Isaza Cadavid",
+      "category": "universidad",
+      "aliases": [
+        "poli",
+        "politecnico",
+        "pjic"
+      ],
+      "lat": 6.3183741,
+      "lng": -75.5642444,
+      "osm": {
+        "id": "way/52302397",
+        "kind": "college",
+        "displayName": "Politécnico Colombiano Jaime Isaza Cadavid - Sede Bello, Calle 31, La Gran Avenida, Bello, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 051053, Colombia",
+        "query": "Politécnico Colombiano Jaime Isaza Cadavid | Politécnico Jaime Isaza Cadavid"
+      }
+    },
+    {
+      "id": "u-ces",
+      "name": "Universidad CES",
+      "category": "universidad",
+      "aliases": [
+        "ces"
+      ],
+      "lat": 6.2085474,
+      "lng": -75.5528451,
+      "osm": {
+        "id": "way/1550715068",
+        "kind": "university",
+        "displayName": "Universidad CES, Carrera 22, Altos del Poblado, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050003, Colombia",
+        "query": "Universidad CES, Medellín"
+      }
+    },
+    {
+      "id": "cc-santafe",
+      "name": "Centro Comercial Santafé",
+      "category": "centro comercial",
+      "aliases": [
+        "santafe"
+      ],
+      "lat": 6.1964218,
+      "lng": -75.5738748,
+      "osm": {
+        "id": "way/92975733",
+        "kind": "mall",
+        "displayName": "Centro Comercial Santafé Medellín, Calle 9 Sur, Los Balsos Numero 2, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050022, Colombia",
+        "query": "Centro Comercial Santafé, Medellín"
+      }
+    },
+    {
+      "id": "cc-tesoro",
+      "name": "El Tesoro Parque Comercial",
+      "category": "centro comercial",
+      "aliases": [
+        "el tesoro"
+      ],
+      "lat": 6.1970205,
+      "lng": -75.5591826,
+      "osm": {
+        "id": "way/35584086",
+        "kind": "mall",
+        "displayName": "El Tesoro Parque Comercial, 1 Sur - 45, Carrera 25A, Los Naranjos, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050022, Colombia",
+        "query": "El Tesoro Parque Comercial, Medellín"
+      }
+    },
+    {
+      "id": "cc-oviedo",
+      "name": "Centro Comercial Oviedo",
+      "category": "centro comercial",
+      "aliases": [
+        "oviedo"
+      ],
+      "lat": 6.1992017,
+      "lng": -75.5750313,
+      "osm": {
+        "id": "way/152942893",
+        "kind": "mall",
+        "displayName": "Centro Comercial Oviedo, Carrera 43C, La Aguacatala, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050022, Colombia",
+        "query": "Centro Comercial Oviedo, Medellín"
+      }
+    },
+    {
+      "id": "cc-unicentro",
+      "name": "Unicentro Medellín",
+      "category": "centro comercial",
+      "aliases": [
+        "unicentro"
+      ],
+      "lat": 6.2408625,
+      "lng": -75.587071,
+      "osm": {
+        "id": "way/580591112",
+        "kind": "mall",
+        "displayName": "Unicentro Medelllín, 34A - 76, Carrera 66B, San Joaquín, Comuna 11 - Laureles-Estadio, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050030, Colombia",
+        "query": "Unicentro, Medellín"
+      }
+    },
+    {
+      "id": "cc-molinos",
+      "name": "Centro Comercial Los Molinos",
+      "category": "centro comercial",
+      "aliases": [
+        "los molinos"
+      ],
+      "lat": 6.2325303,
+      "lng": -75.6038791,
+      "osm": {
+        "id": "way/29275853",
+        "kind": "mall",
+        "displayName": "Centro Comercial Los Molinos, Carrera 82, Nueva Villa de Aburrá, Comuna 16 - Belén, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050032, Colombia",
+        "query": "Centro Comercial Los Molinos, Medellín"
+      }
+    },
+    {
+      "id": "cc-san-diego",
+      "name": "Centro Comercial San Diego",
+      "category": "centro comercial",
+      "aliases": [
+        "san diego"
+      ],
+      "lat": 6.2351591,
+      "lng": -75.5689037,
+      "osm": {
+        "id": "relation/6592273",
+        "kind": "mall",
+        "displayName": "San Diego centro comercial, # 42B - 06, Calle 33, Barrio San Diego, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050015, Colombia",
+        "query": "Centro Comercial San Diego, Medellín"
+      }
+    },
+    {
+      "id": "cc-premium-plaza",
+      "name": "Premium Plaza",
+      "category": "centro comercial",
+      "aliases": [],
+      "lat": 6.2296611,
+      "lng": -75.5704642,
+      "osm": {
+        "id": "way/153413633",
+        "kind": "mall",
+        "displayName": "Premium Plaza, # 30-25, Carrera 43A, Las Palmas, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050016, Colombia",
+        "query": "Premium Plaza, Medellín"
+      }
+    },
+    {
+      "id": "cc-florida",
+      "name": "Florida Parque Comercial",
+      "category": "centro comercial",
+      "aliases": [],
+      "lat": 6.2723073,
+      "lng": -75.5767637,
+      "osm": {
+        "id": "way/260857787",
+        "kind": "mall",
+        "displayName": "Florida Parque Comercial, 65-150, Comuna 5 - Castilla, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Florida Parque Comercial, Medellín"
+      }
+    },
+    {
+      "id": "cc-viva-envigado",
+      "name": "Viva Envigado",
+      "category": "centro comercial",
+      "aliases": [],
+      "lat": 6.1762915,
+      "lng": -75.5916923,
+      "osm": {
+        "id": "way/771717600",
+        "kind": "mall",
+        "displayName": "Viva Envigado, Calle 34 Sur, Envigado, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 055422, Colombia",
+        "query": "Viva Envigado, Envigado"
+      }
+    },
+    {
+      "id": "cc-mayorca",
+      "name": "Centro Comercial Mayorca",
+      "category": "centro comercial",
+      "aliases": [
+        "mayorca"
+      ],
+      "lat": 6.1604047,
+      "lng": -75.6046034,
+      "osm": {
+        "id": "relation/19108905",
+        "kind": "mall",
+        "displayName": "Centro Comercial Outlet Mayorca Etapa II, Avenida Las Vegas, San Isidro, Sabaneta, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 055450, Colombia",
+        "query": "Mayorca, Sabaneta | Centro Comercial Mayorca"
+      }
+    },
+    {
+      "id": "cc-puerta-del-norte",
+      "name": "Puerta del Norte",
+      "category": "centro comercial",
+      "aliases": [],
+      "lat": 6.3395956,
+      "lng": -75.5432161,
+      "osm": {
+        "id": "way/52469057",
+        "kind": "mall",
+        "displayName": "Centro Comercial Puerta del Norte, Avenida 55, Bello, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 051053, Colombia",
+        "query": "Centro Comercial Puerta del Norte, Bello"
+      }
+    },
+    {
+      "id": "p-poblado",
+      "name": "Parque El Poblado",
+      "category": "parque",
+      "aliases": [],
+      "lat": 6.210345,
+      "lng": -75.5709742,
+      "osm": {
+        "id": "way/28565493",
+        "kind": "park",
+        "displayName": "Parque El Poblado, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Parque El Poblado, Medellín"
+      }
+    },
+    {
+      "id": "p-berrio",
+      "name": "Parque Berrío",
+      "category": "parque",
+      "aliases": [
+        "berrio",
+        "centro"
+      ],
+      "lat": 6.2500151,
+      "lng": -75.568136,
+      "osm": {
+        "id": "way/31965663",
+        "kind": "square",
+        "displayName": "Parque Berrío, La Candelaria, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Parque Berrío, Medellín"
+      }
+    },
+    {
+      "id": "p-plaza-botero",
+      "name": "Plaza Botero",
+      "category": "parque",
+      "aliases": [
+        "botero"
+      ],
+      "lat": 6.2518468,
+      "lng": -75.5686386,
+      "osm": {
+        "id": "relation/10597561",
+        "kind": "park",
+        "displayName": "Plaza Botero, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Plaza Botero, Medellín"
+      }
+    },
+    {
+      "id": "p-deseos",
+      "name": "Parque de los Deseos",
+      "category": "parque",
+      "aliases": [],
+      "lat": 6.2681798,
+      "lng": -75.5661711,
+      "osm": {
+        "id": "way/30954416",
+        "kind": "park",
+        "displayName": "Parque de los Deseos, Comuna 4 - Aranjuez, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Parque de los Deseos, Medellín"
+      }
+    },
+    {
+      "id": "p-explora",
+      "name": "Parque Explora",
+      "category": "cultura",
+      "aliases": [
+        "explora",
+        "acuario"
+      ],
+      "lat": 6.2706212,
+      "lng": -75.5655752,
+      "osm": {
+        "id": "way/141166140",
+        "kind": "park",
+        "displayName": "Parque Explora, Comuna 4 - Aranjuez, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Parque Explora, Medellín"
+      }
+    },
+    {
+      "id": "p-jardin-botanico",
+      "name": "Jardín Botánico de Medellín",
+      "category": "parque",
+      "aliases": [
+        "botanico"
+      ],
+      "lat": 6.2705481,
+      "lng": -75.5635288,
+      "osm": {
+        "id": "way/28770266",
+        "kind": "garden",
+        "displayName": "Jardín Botánico, Comuna 4 - Aranjuez, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Jardín Botánico de Medellín"
+      }
+    },
+    {
+      "id": "p-pueblito-paisa",
+      "name": "Pueblito Paisa (Cerro Nutibara)",
+      "category": "parque",
+      "aliases": [
+        "cerro nutibara",
+        "nutibara"
+      ],
+      "lat": 6.2361859,
+      "lng": -75.5802798,
+      "osm": {
+        "id": "way/765380123",
+        "kind": "commercial",
+        "displayName": "Pueblito Paisa, Acceso Pueblito Paisa, Cerro Nutibara, Comuna 16 - Belén, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050015, Colombia",
+        "query": "Pueblito Paisa, Medellín"
+      }
+    },
+    {
+      "id": "p-pies-descalzos",
+      "name": "Parque de los Pies Descalzos",
+      "category": "parque",
+      "aliases": [
+        "pies descalzos"
+      ],
+      "lat": 6.2447352,
+      "lng": -75.5768844,
+      "osm": {
+        "id": "way/32473520",
+        "kind": "park",
+        "displayName": "Parque de Los Pies Descalzos, 42-125, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Parque de los Pies Descalzos, Medellín"
+      }
+    },
+    {
+      "id": "p-plaza-mayor",
+      "name": "Plaza Mayor",
+      "category": "cultura",
+      "aliases": [
+        "plaza mayor"
+      ],
+      "lat": 6.2441953,
+      "lng": -75.5758151,
+      "osm": {
+        "id": "way/32474119",
+        "kind": "commercial",
+        "displayName": "Zona Comercial Plaza Mayor, Carrera 55, Calle Nueva, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050015, Colombia",
+        "query": "Plaza Mayor Medellín Convenciones y Exposiciones"
+      }
+    },
+    {
+      "id": "p-estadio",
+      "name": "Estadio Atanasio Girardot",
+      "category": "deporte",
+      "aliases": [
+        "atanasio",
+        "estadio"
+      ],
+      "lat": 6.2568267,
+      "lng": -75.5901467,
+      "osm": {
+        "id": "way/28669265",
+        "kind": "stadium",
+        "displayName": "Estadio Atanasio Girardot, Carrera 72, El Velódromo, Comuna 11 - Laureles-Estadio, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050034, Colombia",
+        "query": "Estadio Atanasio Girardot, Medellín"
+      }
+    },
+    {
+      "id": "p-primer-parque-laureles",
+      "name": "Primer Parque de Laureles",
+      "category": "parque",
+      "aliases": [
+        "laureles"
+      ],
+      "lat": 6.2459659,
+      "lng": -75.5934622,
+      "osm": {
+        "id": "way/35414119",
+        "kind": "park",
+        "displayName": "Primer Parque de Laureles, Comuna 11 - Laureles-Estadio, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Primer Parque de Laureles, Medellín"
+      }
+    },
+    {
+      "id": "p-belen",
+      "name": "Parque de Belén",
+      "category": "parque",
+      "aliases": [
+        "belen"
+      ],
+      "lat": 6.2324771,
+      "lng": -75.5966721,
+      "osm": {
+        "id": "way/304616628",
+        "kind": "park",
+        "displayName": "Parque de Belén, Comuna 16 - Belén, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Parque de Belén, Medellín"
+      }
+    },
+    {
+      "id": "p-envigado",
+      "name": "Parque Principal de Envigado",
+      "category": "parque",
+      "aliases": [],
+      "lat": 6.170119,
+      "lng": -75.5874231,
+      "osm": {
+        "id": "way/154893173",
+        "kind": "park",
+        "displayName": "Parque de Envigado, Envigado, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Parque de Envigado | Parque Principal de Envigado | Parque Marceliano Vélez"
+      }
+    },
+    {
+      "id": "c-teatro-metropolitano",
+      "name": "Teatro Metropolitano",
+      "category": "cultura",
+      "aliases": [],
+      "lat": 6.2431765,
+      "lng": -75.5775081,
+      "osm": {
+        "id": "way/32473064",
+        "kind": "theatre",
+        "displayName": "Teatro Metropolitano José Gutiérrez Gómez, Calle 41, Carrera 57, Calle Nueva, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050015, Colombia",
+        "query": "Teatro Metropolitano, Medellín"
+      }
+    },
+    {
+      "id": "c-museo-antioquia",
+      "name": "Museo de Antioquia",
+      "category": "cultura",
+      "aliases": [],
+      "lat": 6.2524079,
+      "lng": -75.5691446,
+      "osm": {
+        "id": "way/28770080",
+        "kind": "museum",
+        "displayName": "Museo de Antioquia, Carrera 53, Estación Villa, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050012, Colombia",
+        "query": "Museo de Antioquia, Medellín"
+      }
+    },
+    {
+      "id": "c-palacio-cultura",
+      "name": "Palacio de la Cultura Rafael Uribe Uribe",
+      "category": "cultura",
+      "aliases": [],
+      "lat": 6.2516952,
+      "lng": -75.5680562,
+      "osm": {
+        "id": "relation/7460245",
+        "kind": "museum",
+        "displayName": "Palacio de La Cultura Rafael Uribe Uribe, Calle 52, La Candelaria, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050012, Colombia",
+        "query": "Palacio de la Cultura Rafael Uribe Uribe, Medellín"
+      }
+    },
+    {
+      "id": "c-planetario",
+      "name": "Planetario de Medellín",
+      "category": "cultura",
+      "aliases": [
+        "planetario"
+      ],
+      "lat": 6.2689041,
+      "lng": -75.5661159,
+      "osm": {
+        "id": "way/93329440",
+        "kind": "planetarium",
+        "displayName": "Planetario de Medellín, 71-117, Carrera 52, Sevilla, Comuna 4 - Aranjuez, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050010, Colombia",
+        "query": "Planetario de Medellín"
+      }
+    },
+    {
+      "id": "c-biblioteca-epm",
+      "name": "Biblioteca EPM",
+      "category": "cultura",
+      "aliases": [],
+      "lat": 6.24655,
+      "lng": -75.5730812,
+      "osm": {
+        "id": "way/32474558",
+        "kind": "library",
+        "displayName": "Biblioteca EPM, 44-48, Carrera 54, Guayaquil, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050015, Colombia",
+        "query": "Biblioteca EPM, Medellín"
+      }
+    },
+    {
+      "id": "p-parque-norte",
+      "name": "Parque Norte",
+      "category": "parque",
+      "aliases": [
+        "parque norte"
+      ],
+      "lat": 6.2723349,
+      "lng": -75.5678538,
+      "osm": {
+        "id": "way/589704295",
+        "kind": "park",
+        "displayName": "Parque Norte, 73-115, Comuna 4 - Aranjuez, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050010, Colombia",
+        "query": "Parque Norte, Medellín | Parque Norte"
+      }
+    },
+    {
+      "id": "c-alpujarra",
+      "name": "Centro Administrativo La Alpujarra",
+      "category": "gobierno",
+      "aliases": [
+        "alcaldia",
+        "gobernacion"
+      ],
+      "lat": 6.2445265,
+      "lng": -75.5730312,
+      "osm": {
+        "id": "way/32470917",
+        "kind": "commercial",
+        "displayName": "Centro Administrativo La Alpujarra, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, Colombia",
+        "query": "Centro Administrativo La Alpujarra, Medellín"
+      }
+    },
+    {
+      "id": "t-terminal-norte",
+      "name": "Terminal del Norte",
+      "category": "transporte",
+      "aliases": [
+        "terminal norte"
+      ],
+      "lat": 6.2786426,
+      "lng": -75.5710908,
+      "osm": {
+        "id": "way/143598966",
+        "kind": "bus_station",
+        "displayName": "Terminal de Transporte Norte, Calle 78, Terminal de Transporte, Comuna 5 - Castilla, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050006, Colombia",
+        "query": "Terminal del Norte, Medellín | Terminal de Transportes Norte | Terminal Norte"
+      }
+    },
+    {
+      "id": "t-terminal-sur",
+      "name": "Terminal del Sur",
+      "category": "transporte",
+      "aliases": [
+        "terminal sur"
+      ],
+      "lat": 6.2165202,
+      "lng": -75.5872031,
+      "osm": {
+        "id": "way/31489835",
+        "kind": "bus_station",
+        "displayName": "Terminal de Transportes del Sur, Calle 8B, Campo Amor, Comuna 15 - Guayabal, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050024, Colombia",
+        "query": "Terminal del Sur, Medellín | Terminal de Transportes Sur | Terminal Sur"
+      }
+    },
+    {
+      "id": "t-olaya-herrera",
+      "name": "Aeropuerto Olaya Herrera",
+      "category": "transporte",
+      "aliases": [
+        "olaya",
+        "aeropuerto"
+      ],
+      "lat": 6.2200225,
+      "lng": -75.5890373,
+      "osm": {
+        "id": "way/364743657",
+        "kind": "aerodrome",
+        "displayName": "Aeropuerto Olaya Herrera, Carrera 70, Granada, Comuna 16 - Belén, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050030, Colombia",
+        "query": "Aeropuerto Olaya Herrera, Medellín"
+      }
+    },
+    {
+      "id": "h-pablo-tobon",
+      "name": "Hospital Pablo Tobón Uribe",
+      "category": "salud",
+      "aliases": [
+        "pablo tobon"
+      ],
+      "lat": 6.2773636,
+      "lng": -75.5799834,
+      "osm": {
+        "id": "way/179221628",
+        "kind": "hospital",
+        "displayName": "Hospital Pablo Tobón Uribe, 69-240, Calle 78B, Altamira, Comuna 7 - Robledo, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050040, Colombia",
+        "query": "Hospital Pablo Tobón Uribe, Medellín"
+      }
+    },
+    {
+      "id": "h-san-vicente",
+      "name": "Hospital San Vicente Fundación",
+      "category": "salud",
+      "aliases": [
+        "san vicente"
+      ],
+      "lat": 6.2628102,
+      "lng": -75.5652255,
+      "osm": {
+        "id": "way/343221170",
+        "kind": "hospital",
+        "displayName": "Hospital Universitario San Vicente Paul, Carrera 51D, Jesús Nazareno, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050010, Colombia",
+        "query": "Hospital San Vicente Fundación, Medellín"
+      }
+    },
+    {
+      "id": "h-general",
+      "name": "Hospital General de Medellín",
+      "category": "salud",
+      "aliases": [
+        "hospital general"
+      ],
+      "lat": 6.2343481,
+      "lng": -75.5726639,
+      "osm": {
+        "id": "way/957422254",
+        "kind": "hospital",
+        "displayName": "Hospital General de Medellin, Carrera 48, Perpetuo Socorro, Comuna 10 - La Candelaria, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050015, Colombia",
+        "query": "Hospital General de Medellín"
+      }
+    },
+    {
+      "id": "h-las-americas",
+      "name": "Clínica Las Américas",
+      "category": "salud",
+      "aliases": [],
+      "lat": 6.2140234,
+      "lng": -75.5949218,
+      "osm": {
+        "id": "way/812501828",
+        "kind": "clinic",
+        "displayName": "Clínica Las Américas Promotora, Diagonal 75B, Carrera 70B, Diego Echavarría, Comuna 16 - Belén, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050024, Colombia",
+        "query": "Clínica Las Américas, Medellín"
+      }
+    },
+    {
+      "id": "h-clinica-medellin",
+      "name": "Clínica Medellín El Poblado",
+      "category": "salud",
+      "aliases": [],
+      "lat": 6.1937221,
+      "lng": -75.5574859,
+      "osm": {
+        "id": "way/435205181",
+        "kind": "hospital",
+        "displayName": "Clínica El Rosario, 2 Sur - 85, Carrera 20, Los Naranjos, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050022, Colombia",
+        "query": "Clínica Medellín El Poblado, Medellín"
+      }
+    },
+    {
+      "id": "h-las-vegas",
+      "name": "Clínica Las Vegas",
+      "category": "salud",
+      "aliases": [],
+      "lat": 6.2033231,
+      "lng": -75.576392,
+      "osm": {
+        "id": "way/854090374",
+        "kind": "hospital",
+        "displayName": "Clínica Las Vegas, Gilberto Echeverry, Patio Bonito, Comuna 14 - El Poblado, Perímetro Urbano Medellín, Medellín, Valle de Aburrá, Antioquia, RAP del Agua y la Montaña, 050003, Colombia",
+        "query": "Clínica Las Vegas, Medellín"
+      }
+    }
+  ]
+}

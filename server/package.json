@@ -1,0 +1,36 @@
+{
+  "name": "bus-point-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Backend del prototipo bus.point: rutas, paradas, simulación de buses y planificador de viajes de Medellín",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "predev": "tsx scripts/ensure-data.ts",
+    "start": "tsx src/server.ts",
+    "prestart": "tsx scripts/ensure-data.ts",
+    "test": "node --import tsx --test --test-timeout=15000 \"src/**/*.test.ts\"",
+    "pretest": "tsx scripts/ensure-data.ts",
+    "typecheck": "tsc --noEmit",
+    "data:build": "tsx scripts/build-data.ts",
+    "places:build": "tsx scripts/build-places.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.4.3",
+    "@fastify/swagger": "^9.9.5",
+    "@fastify/swagger-ui": "^6.1.5",
+    "@fastify/type-provider-typebox": "^6.3.0",
+    "@fastify/websocket": "^11.3.7",
+    "fastify": "^5.12.8",
+    "proj4": "^2.23.0",
+    "typebox": "^1.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
